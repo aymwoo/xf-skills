@@ -1,0 +1,16 @@
+{
+  "test_id": "test_te_prototyping_01",
+  "skill_id": "te.prototyping",
+  "description": "验证样品加工与原型制作中工序编制、公差配合与安全规范完整性",
+  "inputs": {
+    "fabrication_method": "3D打印与装配",
+    "material_type": "PLA"
+  },
+  "expected_sections": [
+    "加工图纸与工艺分析",
+    "设备工具与耗材准备",
+    "分步加工与工序控制卡",
+    "装配公差与质量检测",
+    "安全防护与操作红线"
+  ]
+}

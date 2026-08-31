@@ -1,0 +1,16 @@
+{
+  "test_id": "test_te_tech_design_01",
+  "skill_id": "te.technology-design",
+  "description": "验证技术设计教学中需求分析、草图表达与多方案权衡完整性",
+  "inputs": {
+    "design_topic": "手机支架结构设计",
+    "design_domain": "结构与设计"
+  },
+  "expected_sections": [
+    "设计需求与限制条件分析",
+    "技术原理与受力稳定性分析",
+    "方案构思与草图尺寸标注",
+    "多方案决策与权衡矩阵",
+    "物化准备与工艺要点"
+  ]
+}

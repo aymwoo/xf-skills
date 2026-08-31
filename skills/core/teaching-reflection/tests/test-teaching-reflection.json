@@ -1,0 +1,15 @@
+{
+  "test_id": "test_core_teaching_reflection_01",
+  "skill_id": "core.teaching-reflection",
+  "description": "验证教学反思要素、认知归因与行动改进项完整性",
+  "inputs": {
+    "original_lesson_plan": "Python while 循环",
+    "classroom_observations": "死循环频发，时间不足"
+  },
+  "expected_sections": [
+    "课堂整体实效评估",
+    "目标达成度与偏差分析",
+    "认知与教学法归因",
+    "针对性二次教学改进策略"
+  ]
+}

@@ -1,0 +1,262 @@
+# Teaching Skills Framework (教学技能框架)
+
+<p align="center">
+  <strong>面向中小学教师与 AI Agent 的模块化、可组合、学科化教学 AI Skill 开源框架</strong>
+  <br>
+  <em>A Modular, Composable, Subject-Aware AI Teaching Skills Framework for K-12 Educators and Autonomous Agents</em>
+</p>
+
+<p align="center">
+  <a href="LICENSE"><img src="https://img.shields.io/badge/license-MIT-blue.svg" alt="License"></a>
+  <a href="package.json"><img src="https://img.shields.io/badge/version-0.1.0-green.svg" alt="Version"></a>
+  <a href="docs/specifications/skill-spec.md"><img src="https://img.shields.io/badge/spec-v1.0-orange.svg" alt="Spec"></a>
+  <a href="docs/architecture/overview.md"><img src="https://img.shields.io/badge/status-active-brightgreen.svg" alt="Status"></a>
+</p>
+
+---
+
+## 🌟 为什么需要 Teaching Skills Framework？
+
+当前绝大多数 AI 辅助教学工具或提示词仓库存在以下核心痛点：
+
+1. **Prompt 是一次性的黑盒**：将“课程标准、教材版本、学情、教学步骤、格式要求”全部揉碎在一个超长 Prompt 里，难以复用、维护和版本管理。
+2. **缺乏学科教学法深度**：大模型往往输出泛泛而谈的“教学设计套话”，缺乏对信息科技的**计算思维/算法思维/调试支架**，或技术与工程的**真实问题/工程决策/技术试验/迭代制作**等学科特有认知规律的支撑。
+3. **学科与底层能力强耦合**：无法将通用的“教学设计、活动设计、评价量规”与学科特有的“编程教学、工程制图”解耦复用。
+4. **绑定单一模型平台**：难以无缝迁移至 Claude Code、Antigravity、Cursor、OpenAI GPT、Dify、Coze 等多样化 Agent 运行环境。
+
+> 💡 **重要声明**：  
+> **本项目绝不是一个普通的 Prompt 提示词合集。**  
+> 它是面向基础教育的 **Teaching Skill Framework（教学能力工程化框架）**。我们将教学能力抽象为工业级可组合、可继承、可校验、可扩展的微单元（Skill），将教学知识库（Knowledge）和输出标准（Template）解耦，为下一代教育 AI Agent 提供标准协议。
+
+---
+
+## 🧩 核心理念与抽象模型
+
+框架建立在六大核心概念之上：
+
+```
+Teaching Framework
+  │
+  ├── 🎯 Skill (教学能力)        -> "做什么"：如通用教学设计、编程教学、工程设计
+  ├── 📚 Knowledge (教学知识)    -> "知道什么"：如课程标准、学科概念、教学策略、常见误区
+  ├── 📝 Template (输出模板)     -> "输出成什么"：如教学设计、任务单、评价量规、逐字稿
+  ├── 📦 Pack (能力组合包)       -> "如何组装"：如高中信息科技教学包、高中技术与工程教学包
+  ├── 💡 Example (应用案例)      -> "如何运转"：输入 → Skill → Knowledge → 输出
+  └── ⚙️ Runtime (执行环境)      -> "运行机制"：解析、依赖注入、提示管道、生成与校验
+```
+
+```mermaid
+graph TD
+    Teacher[中小学教师 / 课程专家] -->|提出备课需求与学情| RuntimeEngine[AI Agent / Runtime Engine]
+    Agent[各类 AI Agent 平台] --> RuntimeEngine
+    
+    subgraph TeachingFramework ["Teaching Skills Framework"]
+        Pack["📦 Pack (组合包)"] --> CoreSkills["🎯 Core Skills (通用教学能力)"]
+        Pack --> SubjectSkills["🎯 Subject Skills (学科教学能力)"]
+        SubjectSkills -.->|depends_on 继承| CoreSkills
+        
+        SubjectSkills --> Knowledge["📚 Knowledge (课程标准 / 认知模型)"]
+        SubjectSkills --> Template["📝 Template (标准 Markdown 输出格式)"]
+    end
+    
+    RuntimeEngine --> TeachingFramework
+    TeachingFramework --> Output["📄 高质量教学设计 / 任务单 / 评价量规 / PPT 提纲"]
+```
+
+---
+
+## 🏛️ 核心架构原则
+
+1. **Modular (模块化)**：每个 Skill 职责单一，边界清晰。
+2. **Composable (可组合)**：Skill 支持通过 `depends_on` 继承与组合，避免重复造轮子。
+3. **Subject-aware (学科感知)**：深入学科本质，感知不同学科特有的教学规律与素养目标。
+4. **Knowledge-driven (知识驱动)**：课标与学科知识外部化，随新课标与教材平滑升级。
+5. **Agent-friendly & Machine-readable**：标准 YAML 元数据与确定性工作流，便于 AI Agent 解析与执行。
+6. **Human-readable (人类可读)**：一线教师可直接查阅 Markdown，自主修改调整。
+7. **Versionable (可版本化)**：Skill、Knowledge、Pack 均采用语义化版本管理。
+8. **Extensible (平滑扩展)**：未来支持数学、物理、化学、生物、语文、英语等多学科平滑接入，核心层零改动。
+9. **Portable (平台无关)**：标准 Markdown/YAML 结构，不绑定任何模型厂商或 Agent 平台。
+10. **Local-first (本土适配)**：深度契合中国大陆《义务教育课程标准》与《普通高中课程标准》。
+
+---
+
+## 📂 仓库目录结构
+
+```text
+teaching-skills/
+├── .github/                       # GitHub 自动化工作流与 Issue/PR 模板
+├── docs/                          # 官方设计规范与架构文档
+│   ├── architecture/              # 总体、Skill、Knowledge、Pack、Runtime 架构
+│   ├── specifications/            # Skill Spec 与 Manifest Spec 规格
+│   ├── development/               # 创建与验证 Skill 实战指南
+│   └── tutorials/                 # 入门与组装教程
+│
+├── skills/                        # 🎯 教学技能库
+│   ├── core/                      # 通用教学能力 (不含任何具体学科硬编码)
+│   │   ├── lesson-design/         # 通用教学设计
+│   │   ├── activity-design/       # 课堂学习活动设计
+│   │   ├── assessment-design/     # 学习评价设计
+│   │   ├── rubric-design/         # 评价量规设计
+│   │   ├── project-learning/      # 项目式学习 (PBL) 通用设计
+│   │   └── teaching-reflection/   # 课后教学反思与改进
+│   │
+│   ├── information-technology/    # 💻 信息科技技能集
+│   │   ├── programming/           # 编程教学设计 (PRIMM模型/脚手架)
+│   │   ├── algorithm/             # 算法与计算思维教学
+│   │   ├── data/                  # 数据与数据处理教学
+│   │   ├── artificial-intelligence/# 人工智能素养与原理教学
+│   │   ├── computational-thinking/# 计算思维四维度系统培养
+│   │   └── project-learning/      # 信息科技数字化产品项目学习
+│   │
+│   └── technology-engineering/    # 🛠️ 技术与工程技能集 (体现工程思维闭环)
+│       ├── technology-design/     # 技术设计 (结构/流程/系统/控制)
+│       ├── engineering-design/    # 工程设计 (真实约束与方案权衡)
+│       ├── project-learning/      # 工程项目式学习
+│       ├── prototyping/           # 样品制作与原型加工
+│       ├── testing-iteration/     # 试验测试与迭代优化
+│       └── technical-practice/    # 技术实践与工匠素养
+│
+├── knowledge/                     # 📚 外部知识库
+│   ├── common/                    # 通用教育学/课程标准/评价模型
+│   ├── information-technology/    # 信息科技课标、计算思维模型、教学法
+│   └── technology-engineering/    # 通用技术课标、工程思维闭环模型
+│
+├── templates/                     # 📝 标准化输出模板
+│   ├── lesson-plan/               # 标准教学设计方案
+│   ├── teaching-script/           # 教学逐字稿
+│   ├── task-sheet/                # 课堂学习任务单
+│   ├── assessment/                # 过程性与总结性评价表
+│   ├── project/                   # 项目学习方案与任务书
+│   └── presentation/              # 教学课件提纲与板书设计
+│
+├── packs/                         # 📦 学科能力组合包
+│   ├── information-technology/    # 高中信息科技学科包
+│   └── technology-engineering/    # 高中技术与工程学科包
+│
+├── examples/                      # 💡 真实教学案例
+├── tests/                         # 🧪 静态校验与单元测试
+├── scripts/                       # 🛠️ 自动化校验与构建工具
+├── README.md                      # 项目中枢文档
+├── CONTRIBUTING.md                # 贡献指南
+├── CHANGELOG.md                   # 版本变更记录
+└── package.json                   # 依赖与脚本配置
+```
+
+---
+
+## 🎯 当前学科与能力支持
+
+### 1. 第一阶段支持学科
+
+| 学科 (Subject) | 标识符 | 核心特色与教学法关注点 |
+| :--- | :--- | :--- |
+| **信息科技** (Information Technology) | `it.*` | 计算思维、算法思维、PRIMM 编程教学法、代码脚手架、调试认知支持、AI 伦理 |
+| **技术与工程** (Technology & Engineering) | `te.*` | 问题发现、需求分析、方案权衡、图样表达、材料工艺、试验测试、迭代优化 |
+
+### 2. 未来平滑扩展计划 (Roadmap)
+
+由于框架 Core 层与 Subject 层完全解耦，未来将平滑支持以下学科扩展，无需调整底层架构：
+- 📐 **数学 (Mathematics)**: 数学建模、数形结合、逆向题组设计
+- 🔬 **物理 (Physics)**: 物理实验探究、理想化模型建构、错因诊断
+- 🧪 **化学 (Chemistry)**: 微观-宏观-符号三重表征、化学实验方案设计
+- 🧬 **生物 (Biology)**: 生命观念建构、科学探究与实验设计
+- 📖 **语文 (Chinese)**: 任务群学习、群文阅读、情境化写作设计
+- 🌍 **英语 (English)**: 主题语境探究、语篇研读、交际任务设计
+
+---
+
+## 🚀 快速上手 (Quick Start)
+
+### 1. 环境准备
+
+本项目采用轻量级 Node.js 驱动校验引擎（无繁重外部依赖）：
+
+```bash
+# 克隆仓库
+git clone https://github.com/teaching-skills/teaching-skills.git
+cd teaching-skills
+
+# 静态验证所有 Skill、Knowledge、Template 与 Pack
+npm run validate
+
+# 运行框架测试集
+npm test
+```
+
+### 2. 在 AI Agent 中使用 Skill
+
+将对应的 `SKILL.md` 作为 System Context 或 Agent Skill 挂载至任意支持 Markdown 指令的 Agent（如 Antigravity, Claude Code, Cursor, Copilot Workspace 等）：
+
+```text
+你是一个专业的高中信息科技骨干教师，请调用并遵循 skills/information-technology/programming/SKILL.md 规范，
+结合 knowledge/information-technology/curriculum/curriculum-standards-2022.md 知识库，
+为高中一年级学生设计一节《Python 列表遍历与数据统计》教学设计，
+输出必须严格符合 templates/lesson-plan/lesson-plan.md 模板。
+```
+
+---
+
+## 🛠️ 如何开发一个新的 Skill
+
+每个 Skill 的定义必须遵循以下极简标准工作流：
+
+1. 在 `skills/<subject>/<skill-name>/` 下创建 `SKILL.md`。
+2. 编写统一的 **YAML Front Matter**：
+   ```yaml
+   ---
+   id: it.programming
+   name: programming
+   display_name: 编程教学设计
+   version: 0.1.0
+   status: experimental
+   type: teaching-skill
+   subject:
+     - information-technology
+   education_level:
+     - high-school
+   depends_on:
+     - core.lesson-design
+     - core.activity-design
+   requires:
+     knowledge:
+       - information-technology.curriculum
+     templates:
+       - lesson-plan
+       - task-sheet
+   outputs:
+     - lesson-plan
+     - task-sheet
+   ---
+   ```
+3. 遵循标准化 7 步 Workflow：
+   `Input` ➔ `Context Analysis` ➔ `Knowledge Retrieval` ➔ `Planning` ➔ `Generation` ➔ `Validation` ➔ `Output`
+4. 提供 `README.md`、`examples/` 与 `tests/`。
+5. 运行 `npm run validate` 检查合规性。
+
+详细开发教程请阅读：[如何开发一个 Skill](docs/development/create-a-skill.md)。
+
+---
+
+## 📖 核心文档索引
+
+- **系统总体架构**：[docs/architecture/overview.md](docs/architecture/overview.md)
+- **Skill 架构规范**：[docs/architecture/skill-architecture.md](docs/architecture/skill-architecture.md)
+- **Knowledge 知识架构**：[docs/architecture/knowledge-architecture.md](docs/architecture/knowledge-architecture.md)
+- **Pack 组合包架构**：[docs/architecture/pack-architecture.md](docs/architecture/pack-architecture.md)
+- **Runtime 预留架构**：[docs/architecture/runtime-architecture.md](docs/architecture/runtime-architecture.md)
+- **Skill Specification 规范**：[docs/specifications/skill-spec.md](docs/specifications/skill-spec.md)
+- **Manifest Specification 规范**：[docs/specifications/manifest-spec.md](docs/specifications/manifest-spec.md)
+- **Skill 静态校验指南**：[docs/development/validate-a-skill.md](docs/development/validate-a-skill.md)
+
+---
+
+## 🤝 参与贡献
+
+我们热忱欢迎一线骨干教师、教研员、教育技术学者与 AI 开发者共同参与建设！  
+请查阅 [CONTRIBUTING.md](CONTRIBUTING.md) 了解详细的提交流程与规范。
+
+---
+
+## 📄 开源许可证
+
+本项目基于 [MIT License](LICENSE) 协议开源。

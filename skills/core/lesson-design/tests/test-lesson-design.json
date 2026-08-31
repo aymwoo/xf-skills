@@ -1,0 +1,18 @@
+{
+  "test_id": "test_core_lesson_design_01",
+  "skill_id": "core.lesson-design",
+  "description": "验证通用教学设计基础生成规范与字段完整性",
+  "inputs": {
+    "topic": "光的折射规律",
+    "grade_level": "middle-school",
+    "duration": 45
+  },
+  "expected_sections": [
+    "教学目标",
+    "学情分析",
+    "教学重点与难点",
+    "教学过程",
+    "学习评价",
+    "板书设计"
+  ]
+}

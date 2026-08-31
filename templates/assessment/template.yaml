@@ -1,0 +1,11 @@
+id: assessment
+name: assessment
+display_name: 学习评价与量规工具
+version: 0.1.0
+description: 包含诊断性测验题、课中形成性随堂观察表、总结性量规矩阵与错题归因诊断的评价工具集。
+output_format: markdown
+required_sections:
+  - 评价目标与双向细目表
+  - 过程性评价工具 (随堂测验/观察表)
+  - 表现性评价量规 (Analytic Rubric)
+  - 诊断与改进建议

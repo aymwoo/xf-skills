@@ -1,0 +1,16 @@
+{
+  "test_id": "test_te_testing_iter_01",
+  "skill_id": "te.testing-iteration",
+  "description": "验证试验测试与工程迭代中试验方法、失效分析与优化对比完整性",
+  "inputs": {
+    "tested_prototype": "抗震建筑模型",
+    "experiment_method": "模拟试验法"
+  },
+  "expected_sections": [
+    "技术试验目标与方法类型",
+    "试验工况设定与安全控制",
+    "数据采集与试验现象记录",
+    "结构失效机理与归因分析",
+    "工程迭代优化与前后对比"
+  ]
+}

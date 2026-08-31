@@ -1,0 +1,15 @@
+{
+  "test_id": "test_core_rubric_design_01",
+  "skill_id": "core.rubric-design",
+  "description": "验证评价量规维度、等级与行为化指标完整性",
+  "inputs": {
+    "task_description": "水质检测探究报告",
+    "levels_count": 4
+  },
+  "expected_sections": [
+    "量规设计目标与使用说明",
+    "评价维度与权重",
+    "分级指标矩阵表",
+    "自评与互评实施建议"
+  ]
+}

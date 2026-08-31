@@ -1,0 +1,16 @@
+{
+  "test_id": "test_it_ai_01",
+  "skill_id": "it.artificial-intelligence",
+  "description": "验证人工智能教学设计中模型训练实践与伦理思辨完整性",
+  "inputs": {
+    "ai_topic": "口罩识别分类",
+    "ai_tool_platform": "browser_ai"
+  },
+  "expected_sections": [
+    "AI核心概念与应用场景",
+    "数据采集与样本标注任务",
+    "模型训练与参数调优体验",
+    "鲁棒性测试与边界攻防",
+    "算法伦理与社会责任辩论"
+  ]
+}

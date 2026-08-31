@@ -1,0 +1,16 @@
+{
+  "test_id": "test_it_algorithm_01",
+  "skill_id": "it.algorithm",
+  "description": "验证算法教学设计中脱机体验、思维抽象与效率对比完整性",
+  "inputs": {
+    "algorithm_name": "二分查找",
+    "grade_level": "high-school"
+  },
+  "expected_sections": [
+    "算法核心概念与前提条件",
+    "体验式引入与手动模拟",
+    "流程图与伪代码抽象",
+    "代码实现与边界测试",
+    "复杂度与效率分析"
+  ]
+}

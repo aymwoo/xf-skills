@@ -1,0 +1,16 @@
+{
+  "test_id": "test_te_tech_practice_01",
+  "skill_id": "te.technical-practice",
+  "description": "验证技术实践与工艺实训中动作规范、安全红线与质量检测完整性",
+  "inputs": {
+    "practice_skill": "手工电烙铁五步焊接",
+    "inspection_standard": "焊点光洁无虚焊"
+  },
+  "expected_sections": [
+    "实训目标与工匠素养",
+    "工具耗材与安全规范红线",
+    "动作要领示范与分步口诀",
+    "实操练习与巡回指导要点",
+    "工件质量检验与评价标准"
+  ]
+}

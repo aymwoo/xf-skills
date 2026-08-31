@@ -1,0 +1,16 @@
+{
+  "test_id": "test_core_assessment_design_01",
+  "skill_id": "core.assessment-design",
+  "description": "验证学习评价设计与诊断机制完整性",
+  "inputs": {
+    "target_competencies": "循环结构选型判断",
+    "assessment_stage": "formative",
+    "assessment_format": "exit_ticket"
+  },
+  "expected_sections": [
+    "评价目标与对应素养",
+    "评价题目/任务内容",
+    "参考答案与评分要点",
+    "典型错误诊断与反馈对策"
+  ]
+}

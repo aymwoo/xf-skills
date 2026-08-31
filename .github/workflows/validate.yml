@@ -1,0 +1,33 @@
+name: Validate Skills and Framework
+
+on:
+  push:
+    branches: [main, master, develop]
+  pull_request:
+    branches: [main, master, develop]
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [18.x, 20.x, 22.x, 24.x]
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
+
+      - name: Validate Skills and Packs
+        run: npm run validate
+
+      - name: Run Test Suite
+        run: npm test
+
+      - name: Check Catalog Generation
+        run: npm run build:catalog

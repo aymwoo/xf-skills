@@ -1,0 +1,44 @@
+---
+id: pack.te.high-school
+name: high-school-technology-engineering
+display_name: 高中技术与工程教学 Skill Pack
+version: 0.1.0
+description: 专为普通高中通用技术与工程教育教师打造的教学能力包，涵盖技术设计、工程决策、实体制作、试验优化与技术实践。
+
+subject:
+  - technology-engineering
+
+education_level:
+  - high-school
+
+skills:
+  - core.lesson-design
+  - core.activity-design
+  - core.assessment-design
+  - core.rubric-design
+  - core.project-learning
+  - core.teaching-reflection
+  - te.technology-design
+  - te.engineering-design
+  - te.project-learning
+  - te.prototyping
+  - te.testing-iteration
+  - te.technical-practice
+
+knowledge:
+  - common.pedagogy.bloom-taxonomy
+  - common.pedagogy.gagne-nine-events
+  - common.curriculum.core-competencies-framework
+  - common.assessment.formative-summative-models
+  - technology-engineering.curriculum
+  - technology-engineering.discipline
+  - technology-engineering.pedagogy
+
+templates:
+  - lesson-plan
+  - teaching-script
+  - task-sheet
+  - assessment
+  - project
+  - presentation
+---

@@ -1,0 +1,27 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "CatalogSchema",
+  "type": "object",
+  "required": ["version", "skills", "packs", "templates", "knowledge_modules"],
+  "properties": {
+    "version": { "type": "string" },
+    "skills_count": { "type": "integer" },
+    "packs_count": { "type": "integer" },
+    "skills": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id", "name", "display_name", "version", "subject", "outputs"]
+      }
+    },
+    "packs": {
+      "type": "array"
+    },
+    "templates": {
+      "type": "array"
+    },
+    "knowledge_modules": {
+      "type": "array"
+    }
+  }
+}

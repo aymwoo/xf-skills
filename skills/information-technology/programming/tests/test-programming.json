@@ -1,0 +1,16 @@
+{
+  "test_id": "test_it_programming_01",
+  "skill_id": "it.programming",
+  "description": "验证编程教学设计中 PRIMM 模型与调试支架完整性",
+  "inputs": {
+    "programming_language": "Python 3",
+    "target_construct": "for循环累加"
+  },
+  "expected_sections": [
+    "教学目标与计算思维指向",
+    "PRIMM 进阶学习任务链",
+    "范例代码与注释解析",
+    "典型报错与调试支架",
+    "课堂练习与阶梯拓展"
+  ]
+}

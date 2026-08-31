@@ -1,0 +1,17 @@
+{
+  "test_id": "test_te_pbl_01",
+  "skill_id": "te.project-learning",
+  "description": "验证技术与工程项目学习方案中实体物化、安全SOP与BOM清单完整性",
+  "inputs": {
+    "project_name": "智能温室工程",
+    "project_milestones_count": 8
+  },
+  "expected_sections": [
+    "工程项目背景与技术指标",
+    "机械电气总体设计方案",
+    "BOM材料清单与工量具配置",
+    "分阶段物化制作与装配工序",
+    "实验室安全SOP与应急预案",
+    "整机测试与工程答辩评价"
+  ]
+}

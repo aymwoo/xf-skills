@@ -1,0 +1,17 @@
+{
+  "test_id": "test_core_activity_design_01",
+  "skill_id": "core.activity-design",
+  "description": "验证课堂学习活动设计与任务单要素完整性",
+  "inputs": {
+    "learning_objective": "绝热材料保温性能探究",
+    "activity_type": "group_investigation",
+    "duration": 15
+  },
+  "expected_sections": [
+    "活动主题与目标",
+    "小组分工与角色",
+    "探究步骤与任务指引",
+    "数据记录与分析表",
+    "小组汇报要点"
+  ]
+}

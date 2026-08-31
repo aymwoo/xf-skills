@@ -1,0 +1,44 @@
+---
+id: pack.it.high-school
+name: high-school-information-technology
+display_name: 高中信息科技教学 Skill Pack
+version: 0.1.0
+description: 专为高中信息科技教师打造的完整教学能力包，涵盖编程、算法、数据、AI、计算思维培养及项目化学习。
+
+subject:
+  - information-technology
+
+education_level:
+  - high-school
+
+skills:
+  - core.lesson-design
+  - core.activity-design
+  - core.assessment-design
+  - core.rubric-design
+  - core.project-learning
+  - core.teaching-reflection
+  - it.programming
+  - it.algorithm
+  - it.data
+  - it.artificial-intelligence
+  - it.computational-thinking
+  - it.project-learning
+
+knowledge:
+  - common.pedagogy.bloom-taxonomy
+  - common.pedagogy.gagne-nine-events
+  - common.curriculum.core-competencies-framework
+  - common.assessment.formative-summative-models
+  - information-technology.curriculum
+  - information-technology.discipline
+  - information-technology.pedagogy
+
+templates:
+  - lesson-plan
+  - teaching-script
+  - task-sheet
+  - assessment
+  - project
+  - presentation
+---

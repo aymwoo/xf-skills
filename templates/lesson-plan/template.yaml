@@ -1,0 +1,17 @@
+id: lesson-plan
+name: lesson-plan
+display_name: 标准教学设计方案
+version: 0.1.0
+description: 覆盖课程信息、教材学情分析、教学目标、重点难点、学习任务、教学活动链、学习评价、板书与教学反思的标准教案模板。
+output_format: markdown
+required_sections:
+  - 课程基本信息
+  - 教材与内容分析
+  - 学情分析
+  - 教学目标与核心素养
+  - 教学重点与难点
+  - 教学环境与资源准备
+  - 教学过程 (分环节设计)
+  - 学习评价设计
+  - 板书设计
+  - 教学反思与二次改进

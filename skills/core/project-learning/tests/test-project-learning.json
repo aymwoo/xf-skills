@@ -1,0 +1,16 @@
+{
+  "test_id": "test_core_project_learning_01",
+  "skill_id": "core.project-learning",
+  "description": "验证项目式学习方案要素、驱动性问题与里程碑完整性",
+  "inputs": {
+    "project_theme": "智能节水系统改造",
+    "total_periods": 6
+  },
+  "expected_sections": [
+    "项目概述与驱动性问题",
+    "核心素养与学习目标",
+    "阶段里程碑与任务推进",
+    "学习支架与资源清单",
+    "成果展示与答辩评价"
+  ]
+}

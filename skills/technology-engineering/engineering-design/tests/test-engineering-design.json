@@ -1,0 +1,16 @@
+{
+  "test_id": "test_te_eng_design_01",
+  "skill_id": "te.engineering-design",
+  "description": "验证工程设计流程中量化效能、决策矩阵与失效迭代完整性",
+  "inputs": {
+    "engineering_challenge": "轻质桁架桥设计",
+    "quantifiable_metrics": "承重自重比"
+  },
+  "expected_sections": [
+    "工程问题界定与量化性能指标",
+    "约束条件与标准规范分析",
+    "多方案生成与决策矩阵比对",
+    "建模加工与试验载荷测试",
+    "破坏失效分析与工程迭代"
+  ]
+}

@@ -1,0 +1,34 @@
+{
+  "name": "teaching-skills",
+  "version": "0.1.0",
+  "description": "A modular, composable, and subject-aware AI Teaching Skills Framework for K-12 educators and AI Agents.",
+  "type": "module",
+  "main": "scripts/validate/validator.js",
+  "scripts": {
+    "validate": "node scripts/validate/validator.js",
+    "validate:skills": "node scripts/validate/validator.js --target=skills",
+    "validate:packs": "node scripts/validate/validator.js --target=packs",
+    "build:catalog": "node scripts/build/build-catalog.js",
+    "test": "node --test tests/**/*.test.js",
+    "check": "npm run validate && npm test"
+  },
+  "keywords": [
+    "teaching-skills",
+    "ai-agent",
+    "education-technology",
+    "k12-education",
+    "lesson-plan",
+    "computational-thinking",
+    "engineering-design",
+    "prompt-engineering"
+  ],
+  "author": "Teaching Skills Framework Contributors",
+  "license": "MIT",
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/teaching-skills/teaching-skills.git"
+  }
+}

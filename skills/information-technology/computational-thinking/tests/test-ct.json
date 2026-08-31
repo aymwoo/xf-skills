@@ -1,0 +1,16 @@
+{
+  "test_id": "test_it_ct_01",
+  "skill_id": "it.computational-thinking",
+  "description": "验证计算思维四要素分解、抽象、模式识别、算法设计覆盖度",
+  "inputs": {
+    "problem_scenario": "食堂排队优化"
+  },
+  "expected_sections": [
+    "真实问题情境与挑战",
+    "问题分解与子系统划分",
+    "模式识别与共性提炼",
+    "抽象建模与要素提炼",
+    "算法设计与方案验证",
+    "思维迁移与反思"
+  ]
+}

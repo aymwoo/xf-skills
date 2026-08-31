@@ -1,0 +1,11 @@
+topic: Python 冒泡排序算法探究与实现
+subject: information-technology
+grade_level: 高中一年级
+duration: 45 分钟
+target_skills:
+  - it.algorithm
+  - it.programming
+  - core.activity-design
+textbook_edition: 粤教版高中信息技术必修1《数据与计算》
+prior_knowledge: 学生已掌握 Python 列表索引、单层 for 循环、两数交换变量操作
+lab_environment: 具备网络与 Python 3.10 环境的计算机机房

@@ -1,0 +1,12 @@
+id: teaching-script
+name: teaching-script
+display_name: 教学逐字稿与师生互动脚本
+version: 0.1.0
+description: 详细记录教师关键讲授语、启发性提问台词、预设学生回答及教师二次追问反馈的课堂逐字脚本。
+output_format: markdown
+required_sections:
+  - 课题与课时
+  - 导入情境话术
+  - 新知讲授与演示台词
+  - 启发提问与多分支追问脚本
+  - 总结升华台词

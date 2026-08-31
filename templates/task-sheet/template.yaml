@@ -1,0 +1,12 @@
+id: task-sheet
+name: task-sheet
+display_name: 课堂学习任务单
+version: 0.1.0
+description: 供学生在课堂上自主探究、合作实验、记录数据、编写代码、绘制草图与自我评价的配套学习任务单。
+output_format: markdown
+required_sections:
+  - 学习目标与驱动性问题
+  - 任务一 (基础感知/预测)
+  - 任务二 (动手探究/修改)
+  - 任务三 (高阶创造/综合应用)
+  - 成果记录与自我评价

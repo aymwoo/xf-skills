@@ -1,0 +1,16 @@
+{
+  "test_id": "test_it_pbl_01",
+  "skill_id": "it.project-learning",
+  "description": "验证信息科技大单元项目设计软硬件架构、开发阶段与测试规范完整性",
+  "inputs": {
+    "project_name": "智慧教室监测系统",
+    "project_periods": 6
+  },
+  "expected_sections": [
+    "项目背景与工程需求",
+    "系统总体架构与技术选型",
+    "分阶段实施计划与里程碑",
+    "接口定义与协同开发规范",
+    "系统集成测试与验收标准"
+  ]
+}

@@ -1,0 +1,10 @@
+id: presentation
+name: presentation
+display_name: 教学课件与板书提纲
+version: 0.1.0
+description: 用于快速生成 PPT 幻灯片逐页结构、多媒体素材提示及教师授课视听配合提纲。
+output_format: markdown
+required_sections:
+  - 课件基本信息
+  - 幻灯片逐页大纲 (含页码/标题/主视觉/教师提示)
+  - 板书整体版面规划

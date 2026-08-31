@@ -1,0 +1,15 @@
+{
+  "test_id": "test_it_data_01",
+  "skill_id": "it.data",
+  "description": "验证数据处理教学设计中数据清洗、分析与可视化规范完整性",
+  "inputs": {
+    "data_topic": "城市气温降水分析",
+    "data_tool": "Python Pandas"
+  },
+  "expected_sections": [
+    "数据主题与探究背景",
+    "数据采集与清洗任务",
+    "统计分析与可视化图表选型",
+    "结论推导与数据素养提炼"
+  ]
+}
