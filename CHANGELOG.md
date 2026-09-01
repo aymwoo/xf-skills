@@ -5,6 +5,15 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.2.1] - 2026-09-02
+
+### Changed
+- **优化啄木鸟审计专家 (`te.woodpecker-auditor`)**:
+  - **规约与渐进式发现优化**：在 `SKILL.md` YAML Front Matter 中补全 `description` 描述及触发词，修复 Antigravity 平台识别该 Skill 时描述为空的问题。
+  - **红线对抗防御升级**：新增红线四（整篇冻结截断协议）与红线五（防套话与骨架拒绝原则），完备应对教师“整篇教案轰炸”与“苦求代劳示范”两类极限行为。
+  - **IMA 检索脚本长句鲁棒性提升**：`search_gt_resource.cjs` 引入通用技术领域关键词智能提取算法，在复杂自然语言查询下自动降级提炼核心工程词，避免云端 0 匹配。
+  - **测试覆盖度扩充**：新增 `tests/technology-engineering/search-gt-resource.test.js` 单元测试套件，全面覆盖关键词提取、参数解析与知识库映射。
+
 ## [0.2.0] - 2026-09-01
 
 ### Added
