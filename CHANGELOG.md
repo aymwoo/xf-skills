@@ -5,6 +5,16 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.2.0] - 2026-09-01
+
+### Added
+- **高中技术与工程教案“啄木鸟”审计专家 (`te.woodpecker-auditor`)**:
+  - 新增面向高中通用技术（技术与工程）学科的苏格拉底追问式教案审计专家技能。
+  - **三道防线审计工作流**：闭环实现阶段一（目标可测与物理极限指标）、阶段二（教学评一致性与过程伴随式量规）、阶段三（工程思维摩擦力、参数博弈 Trade-off 与图尔敏论证自辩）。
+  - **交互红线算法控制**：严格实施严禁代劳（不替写教案）、步骤锁死（前序未达标拒绝越级）、人在回路（保留教师最终决策主权）三大原则。
+  - **IMA 知识库连接器**：内置 `search_gt_resource.cjs` 检索工具，支持直连 IMA 检索 59 本官方高中教材（人教版、苏教版、地质社版、粤教粤科版、豫科版）及课标实证依据。
+  - **自动化测试集成**：同步更新 `tests/technology-engineering/te-skills.test.js`，TE 技能套件扩充至 7 项，全量通过静态验证与测试。
+
 ## [0.1.0] - 2026-08-31
 
 ### Added
