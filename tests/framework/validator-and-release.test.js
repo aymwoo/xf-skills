@@ -29,11 +29,11 @@ tags:
   assert.deepEqual(parsed.tags, ['tag1', 'tag2']);
 });
 
-test('framework: all 21 skills must have description in frontmatter', () => {
+test('framework: all 23 skills must have description in frontmatter', () => {
   const validator = new FrameworkValidator(ROOT_DIR);
   const report = validator.run();
   assert.equal(report.success, true);
-  assert.equal(validator.skills.size, 21);
+  assert.equal(validator.skills.size, 23);
 
   for (const [id, skill] of validator.skills.entries()) {
     assert.ok(skill.description, `Skill ${id} must have description`);
@@ -50,7 +50,9 @@ test('framework: kb.registry.schema.json exists and is valid JSON', () => {
   assert.ok(Array.isArray(schema.required));
 });
 
-test('framework: scripts/build/build-catalog.js is tracked and exists', () => {
+test('framework: scripts/build/build-catalog.js and bin/xf-skills.cjs exist', () => {
   const buildPath = path.join(ROOT_DIR, 'scripts/build/build-catalog.js');
   assert.ok(fs.existsSync(buildPath), 'scripts/build/build-catalog.js must exist');
+  const cliPath = path.join(ROOT_DIR, 'bin/xf-skills.cjs');
+  assert.ok(fs.existsSync(cliPath), 'bin/xf-skills.cjs must exist');
 });

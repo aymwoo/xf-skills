@@ -107,22 +107,27 @@ teaching-skills/
 │   │   ├── artificial-intelligence/# 人工智能素养与原理教学
 │   │   ├── computational-thinking/# 计算思维四维度系统培养
 │   │   ├── project-learning/      # 信息科技数字化产品项目学习
-│   │   └── primm-debugger/        # PRIMM 编程思维与认知调试助教 (时序推演/探针调试)
+│   │   ├── primm-debugger/        # PRIMM 编程思维与认知调试助教 (时序推演/探针调试)
+│   │   └── woodpecker-auditor/    # 信息科技教案啄木鸟审计 (语法负荷/CT显性化/探究留白)
 │   │
-│   └── technology-engineering/    # 🛠️ 技术与工程技能集 (体现工程思维闭环)
-│       ├── technology-design/     # 技术设计 (结构/流程/系统/控制)
-│       ├── engineering-design/    # 工程设计 (真实约束与方案权衡)
-│       ├── project-learning/      # 工程项目式学习
-│       ├── prototyping/           # 样品制作与原型加工
-│       ├── testing-iteration/     # 试验测试与迭代优化
-│       ├── technical-practice/    # 技术实践与工匠素养
-│       ├── woodpecker-auditor/    # 啄木鸟教案审计专家 (三道防线/IMA 59册教材)
-│       └── toulmin-assistant/     # 图尔敏论证式工程助教 (认知摩擦/思辨自辩)
+│   ├── technology-engineering/    # 🛠️ 技术与工程技能集 (体现工程思维闭环)
+│   │   ├── technology-design/     # 技术设计 (结构/流程/系统/控制)
+│   │   ├── engineering-design/    # 工程设计 (真实约束与方案权衡)
+│   │   ├── project-learning/      # 工程项目式学习
+│   │   ├── prototyping/           # 样品制作与原型加工
+│   │   ├── testing-iteration/     # 试验测试与迭代优化
+│   │   ├── technical-practice/    # 技术实践与工匠素养
+│   │   ├── woodpecker-auditor/    # 啄木鸟教案审计专家 (三道防线/IMA 59册教材)
+│   │   └── toulmin-assistant/     # 图尔敏论证式工程助教 (认知摩擦/思辨自辩)
+│   │
+│   └── physics/                   # 🔬 物理学科技能集 (STEM 探究基石)
+│       └── experiment-inquiry/    # DIS 数字化实验探究教学 (传感器采集/图象拟合/误差归因)
 │
 ├── knowledge/                     # 📚 外部知识库
 │   ├── common/                    # 通用教育学/课程标准/评价模型
 │   ├── information-technology/    # 信息科技课标、计算思维模型、教学法
-│   └── technology-engineering/    # 通用技术课标、工程思维闭环模型
+│   ├── technology-engineering/    # 通用技术课标、工程思维闭环模型
+│   └── physics/                   # 高中物理课标与核心素养框架
 │
 ├── templates/                     # 📝 标准化输出模板
 │   ├── lesson-plan/               # 标准教学设计方案
@@ -186,7 +191,26 @@ npm run validate
 npm test
 ```
 
-### 2. 在 AI Agent 中使用 Skill
+### 2. 使用交互式 CLI 工具 (`xf-skills`)
+
+框架内置零外部依赖的终端命令行工具，支持技能检索、规约查阅与苏格拉底追问模拟：
+
+```bash
+# 查看全量技能资产清单 (按学科分类)
+node bin/xf-skills.cjs list
+
+# 关键词/意图模糊搜索
+node bin/xf-skills.cjs search "闭环控制"
+node bin/xf-skills.cjs search "递归"
+
+# 查阅指定技能规格、依赖与红线
+node bin/xf-skills.cjs info te.toulmin-assistant
+
+# 启动终端苏格拉底微追问模拟演示 (体验认知摩擦门禁)
+node bin/xf-skills.cjs chat it.primm-debugger --mock
+```
+
+### 3. 在 AI Agent 中使用 Skill
 
 将对应的 `SKILL.md` 作为 System Context 或 Agent Skill 挂载至任意支持 Markdown 指令的 Agent（如 Antigravity, Claude Code, Cursor, Copilot Workspace 等）：
 

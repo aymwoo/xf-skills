@@ -8,7 +8,7 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const ROOT_DIR = path.resolve(__dirname, '../../');
 
-test('Information Technology Suite: All 7 IT skills must be valid and correctly depend on Core', (t) => {
+test('Information Technology Suite: All 8 IT skills must be valid and correctly depend on Core', (t) => {
   const validator = new FrameworkValidator(ROOT_DIR);
   const report = validator.run();
 
@@ -21,7 +21,8 @@ test('Information Technology Suite: All 7 IT skills must be valid and correctly 
     'it.artificial-intelligence',
     'it.computational-thinking',
     'it.project-learning',
-    'it.primm-debugger'
+    'it.primm-debugger',
+    'it.woodpecker-auditor'
   ];
 
   for (const skillId of expectedItSkills) {

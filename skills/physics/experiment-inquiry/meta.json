@@ -1,0 +1,7 @@
+{
+  "name": "physics-experiment-inquiry",
+  "version": "0.1.0",
+  "displayName": "高中物理数字化实验探究教学设计",
+  "description": "面向高中物理实验探究与 DIS 数字化传感器教学的专业设计技能。聚焦科学探究四要素（问题假设、方案设计、数据采集拟合、误差归因反思），将传感器毫秒级数据与物理规律推导深度融合。",
+  "author": "Teaching Skills Framework Contributors"
+}

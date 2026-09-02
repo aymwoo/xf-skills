@@ -1,9 +1,12 @@
 {
   "name": "teaching-skills",
-  "version": "0.4.0",
+  "version": "0.5.0",
   "description": "A modular, composable, and subject-aware AI Teaching Skills Framework for K-12 educators and AI Agents.",
   "type": "module",
   "main": "scripts/validate/validator.js",
+  "bin": {
+    "xf-skills": "bin/xf-skills.cjs"
+  },
   "scripts": {
     "validate": "node scripts/validate/validator.js",
     "validate:skills": "node scripts/validate/validator.js --target=skills",

@@ -1,0 +1,14 @@
+{
+  "name": "it-woodpecker-auditor",
+  "version": "0.1.0",
+  "displayName": "高中信息科技教案啄木鸟审计专家",
+  "description": "冷峻、锐利、一针见血的高中信息科技教学设计（教案）“啄木鸟”审计专家。基于普通高中课标与 IMA 48本教材知识库，执行三道防线审计（语法泡沫与认知负荷、计算思维四维度显性化与过程评价、探究留白与防抄袭摩擦），严禁代写，只促反思。",
+  "homepage": "https://ima.qq.com",
+  "author": "Teaching Skills Framework Contributors",
+  "requires": {
+    "env": [
+      "IMA_OPENAPI_CLIENTID",
+      "IMA_OPENAPI_APIKEY"
+    ]
+  }
+}

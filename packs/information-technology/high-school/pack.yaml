@@ -25,6 +25,7 @@ skills:
   - it.computational-thinking
   - it.project-learning
   - it.primm-debugger
+  - it.woodpecker-auditor
 
 knowledge:
   - common.pedagogy.bloom-taxonomy

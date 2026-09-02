@@ -5,6 +5,25 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.5.0] - 2026-09-02
+
+### Added
+- **信息科技教师端旗舰：高中信息科技教案啄木鸟审计专家 (`it.woodpecker-auditor`)**:
+  - 针对信息科技备课痛点打造冷峻审计专家，对齐通用技术啄木鸟，形成学科双轮驱动。
+  - **三道防线审计**：第一道防线（语法泡沫与认知负荷审计，防低阶记忆超标）、第二道防线（计算思维四维度显性化与过程评价审计）、第三道防线（探究留白与防抄袭摩擦审计，防直接投喂源码）。
+  - **五大交互硬红线**：严禁代劳写代码、步骤锁定门禁（支持教师主动跳过例外）、人在回路主权、整篇冻结截断协议、骨架拒绝代劳原则。
+  - 正式收录至 `pack.it.high-school`，IT 技能扩充至 8 项。
+- **极简终端交互 CLI 引擎 (`bin/xf-skills.cjs`)**:
+  - 零外部依赖原生实现 `xf-skills list`（按学科清单渲染）、`search`（意图/关键词检索）、`info`（技能规格与红线查阅）以及 `chat [--mock]`（苏格拉底追问模拟体验）。
+  - 在 `package.json` 中暴露全局 `bin` 别名 `xf-skills`。
+- **知识库与产物模板全自动化断言套件 (`tests/framework/templates-and-knowledge.test.js`)**:
+  - 断言 6 类标准化产物模板及其 companion Markdown 范本合法性。
+  - 断言全库 21 个知识库模块结构与核心概念完整性，消除模板与知识库测试真空。
+- **基础科学跨学科探究破冰：高中物理 DIS 数字化实验探究 (`physics.experiment-inquiry`)**:
+  - 开启 `skills/physics/` 学科集，联动 DIS 数字化传感器（力、光电门、位移）采集、坐标图象拟合与误差分析，打造 STEM 跨学科底层基石。
+  - 新增 `knowledge/physics/curriculum/physics-curriculum-framework.md` 物理课程标准与核心素养框架。
+  - 全自动化测试用例由 53 项扩充至 **66 项全绿通过**。
+
 ## [0.4.0] - 2026-09-02
 
 ### Added
