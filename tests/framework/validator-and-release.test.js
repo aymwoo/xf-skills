@@ -29,11 +29,11 @@ tags:
   assert.deepEqual(parsed.tags, ['tag1', 'tag2']);
 });
 
-test('framework: all 20 skills must have description in frontmatter', () => {
+test('framework: all 21 skills must have description in frontmatter', () => {
   const validator = new FrameworkValidator(ROOT_DIR);
   const report = validator.run();
   assert.equal(report.success, true);
-  assert.equal(validator.skills.size, 20);
+  assert.equal(validator.skills.size, 21);
 
   for (const [id, skill] of validator.skills.entries()) {
     assert.ok(skill.description, `Skill ${id} must have description`);

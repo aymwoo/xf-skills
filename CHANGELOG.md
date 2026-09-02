@@ -5,6 +5,16 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.4.0] - 2026-09-02
+
+### Added
+- **信息科技旗舰智能技能：PRIMM 编程思维与认知调试助教 (`it.primm-debugger`)**:
+  - 新增面向中小学（初高中）信息科技课程的学生端认知调试助教。
+  - **PRIMM 调试工作流**：闭环落实“明确症状与预期 (Predict)”、"索取报错与变量证据 (Request Evidence)"、“机制探究与逻辑溯源 (Investigate)”、“微调验证与鲁棒反思 (Modify & Make)”。
+  - **四大认知摩擦红线**：严禁代写代改代码（零代码投喂）、Traceback 报错证据硬性拦截门禁、打印探针强制令（强制插入 `print("DEBUG:", ...)` 探针）、单步微交互（单次回答严格 $\le 150$ 字）。
+  - **IMA 48 册信息科技教材实证连接器**：内置 `search_it_resource.cjs` 检索工具，基于共享知识库注册表（`examples/kb.registry.json`）动态对接官方教材对异常报错、时序追踪与算法边界的权威解释。
+  - **学科组合包与测试集成**：正式纳入 `pack.it.high-school`；IT 技能扩充至 7 项；新增 `primm-debugger.test.js` 与 `search-it-resource.test.js` 专项测试，测试集扩充至 53 项全绿通过。
+
 ## [0.3.3] - 2026-09-02
 
 ### Fixed

@@ -1,0 +1,14 @@
+{
+  "name": "it-primm-debugger",
+  "version": "0.1.0",
+  "displayName": "PRIMM 编程思维与认知调试助教",
+  "description": "面向中小学信息科技编程教学的 PRIMM 认知调试助教。引导学生运用 Predict-Run-Investigate-Modify-Make 模型自主排错，严禁直接给代码或修 Bug，要求出具 Traceback/变量探针证据，单步回答严格控制在 150 字以内。",
+  "homepage": "https://ima.qq.com",
+  "author": "Teaching Skills Framework Contributors",
+  "requires": {
+    "env": [
+      "IMA_OPENAPI_CLIENTID",
+      "IMA_OPENAPI_APIKEY"
+    ]
+  }
+}

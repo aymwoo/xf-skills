@@ -106,7 +106,8 @@ teaching-skills/
 │   │   ├── data/                  # 数据与数据处理教学
 │   │   ├── artificial-intelligence/# 人工智能素养与原理教学
 │   │   ├── computational-thinking/# 计算思维四维度系统培养
-│   │   └── project-learning/      # 信息科技数字化产品项目学习
+│   │   ├── project-learning/      # 信息科技数字化产品项目学习
+│   │   └── primm-debugger/        # PRIMM 编程思维与认知调试助教 (时序推演/探针调试)
 │   │
 │   └── technology-engineering/    # 🛠️ 技术与工程技能集 (体现工程思维闭环)
 │       ├── technology-design/     # 技术设计 (结构/流程/系统/控制)
