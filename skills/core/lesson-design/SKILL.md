@@ -2,6 +2,10 @@
 id: core.lesson-design
 name: lesson-design
 display_name: 通用教学设计
+description: |
+  K-12 通用教学设计（教案）核心技能。
+  基于布鲁姆教育目标分类学与核心素养框架，指导教师完成“学习者分析、明确教学目标、重难点突破、教学环节规划、教-学-评一致性检验”的标准教学设计方案。
+  触发词：教学设计、教案设计、备课、编写教案、教学方案、课时教学规划。
 version: 0.1.0
 status: experimental
 type: teaching-skill

@@ -2,6 +2,10 @@
 id: te.prototyping
 name: prototyping
 display_name: 样品制作与原型加工
+description: |
+  通用技术物化原型制作、加工工艺与创客制造教学设计技能。
+  涵盖传统金工、木工、连接工艺（榫卯/焊接），以及 3D 打印、激光切割等现代数字制造工艺与装配流程。
+  触发词：样品制作、原型加工、木工工艺、金工加工、3D打印教学、激光切割、物化能力。
 version: 0.1.0
 status: experimental
 type: teaching-skill

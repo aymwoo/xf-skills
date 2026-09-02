@@ -2,6 +2,10 @@
 id: te.technical-practice
 name: technical-practice
 display_name: 技术实践与工艺实训
+description: |
+  强化安全规范、劳动习惯与工匠精神的技术实践操作教学设计技能。
+  指导工具规范使用（锯、锉、钻、测）、操作安全规程制定、容差意识培养与车间 5S 管理实践。
+  触发词：技术实践、工匠精神、安全操作规程、工具使用规范、劳动素养、5S管理。
 version: 0.1.0
 status: experimental
 type: teaching-skill

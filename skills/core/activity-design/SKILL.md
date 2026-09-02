@@ -2,6 +2,10 @@
 id: core.activity-design
 name: activity-design
 display_name: 课堂学习活动设计
+description: |
+  以学生为中心的课堂探究与协同学习活动设计技能。
+  基于加涅教学九事件与建构主义理论，设计具有明确驱动问题、分组分工、脚手架指引、过程记录及汇报机制的课堂学习任务单与活动方案。
+  触发词：活动设计、课堂活动、合作学习、探究活动、任务单、课堂互动。
 version: 0.1.0
 status: experimental
 type: teaching-skill

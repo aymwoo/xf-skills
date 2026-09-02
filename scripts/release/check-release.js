@@ -22,6 +22,9 @@ function checkRelease() {
     'package.json',
     '.gitignore',
     '.github/workflows/validate.yml',
+    'scripts/build/build-catalog.js',
+    'scripts/validate/validator.js',
+    'examples/kb.registry.json',
     'docs/architecture/overview.md',
     'docs/specifications/skill-spec.md'
   ];
@@ -37,11 +40,19 @@ function checkRelease() {
     }
   }
 
+  let pkgVersion = '0.3.2';
+  try {
+    const pkg = JSON.parse(fs.readFileSync(path.join(ROOT_DIR, 'package.json'), 'utf-8'));
+    if (pkg.version) pkgVersion = pkg.version;
+  } catch (e) {
+    // fallback
+  }
+
   if (missing > 0) {
     console.error(`\n❌ Release check failed with ${missing} missing files.`);
     process.exit(1);
   } else {
-    console.log(`\n🎉 All release criteria satisfied! Ready for v0.1.0 release.\n`);
+    console.log(`\n🎉 All release criteria satisfied! Ready for v${pkgVersion} release.\n`);
   }
 }
 

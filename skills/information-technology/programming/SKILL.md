@@ -2,6 +2,10 @@
 id: it.programming
 name: programming
 display_name: 编程教学设计
+description: |
+  面向中小学信息科技的编程教学设计专家技能。
+  严格基于 PRIMM 教学模型（Predict-Run-Investigate-Modify-Make）与代码脚手架，引导学生跨越语法与调试障碍，培养计算思维与算法实现能力。
+  触发词：编程教学、Python教学、代码脚手架、PRIMM模型、程序设计、算法编程。
 version: 0.1.0
 status: experimental
 type: teaching-skill

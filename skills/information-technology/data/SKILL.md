@@ -2,6 +2,10 @@
 id: it.data
 name: data
 display_name: 数据与数据处理教学
+description: |
+  中小学信息科技数据素养与数字化处理教学设计技能。
+  围绕数据采集、数据清洗、编码表征、结构化存储与数据可视化分析，培养用数据解决真实问题与实证决策的能力。
+  触发词：数据教学、数据处理、数据分析、数据可视化、编码体系、信息编码。
 version: 0.1.0
 status: experimental
 type: teaching-skill

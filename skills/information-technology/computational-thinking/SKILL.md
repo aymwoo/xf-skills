@@ -2,6 +2,10 @@
 id: it.computational-thinking
 name: computational-thinking
 display_name: 计算思维培养
+description: |
+  系统化培养计算思维四维度（分解、模式识别、抽象、算法设计）的教学设计技能。
+  将复杂真实问题转化为计算机可处理的形式，支持无插电（CS Unplugged）与编程实践双轨教学。
+  触发词：计算思维、问题分解、模式识别、抽象思维、无插电计算思维。
 version: 0.1.0
 status: experimental
 type: teaching-skill

@@ -114,7 +114,9 @@ teaching-skills/
 │       ├── project-learning/      # 工程项目式学习
 │       ├── prototyping/           # 样品制作与原型加工
 │       ├── testing-iteration/     # 试验测试与迭代优化
-│       └── technical-practice/    # 技术实践与工匠素养
+│       ├── technical-practice/    # 技术实践与工匠素养
+│       ├── woodpecker-auditor/    # 啄木鸟教案审计专家 (三道防线/IMA 59册教材)
+│       └── toulmin-assistant/     # 图尔敏论证式工程助教 (认知摩擦/思辨自辩)
 │
 ├── knowledge/                     # 📚 外部知识库
 │   ├── common/                    # 通用教育学/课程标准/评价模型
@@ -173,8 +175,8 @@ teaching-skills/
 
 ```bash
 # 克隆仓库
-git clone https://github.com/teaching-skills/teaching-skills.git
-cd teaching-skills
+git clone https://github.com/aymwoo/xf-skills.git
+cd xf-skills
 
 # 静态验证所有 Skill、Knowledge、Template 与 Pack
 npm run validate

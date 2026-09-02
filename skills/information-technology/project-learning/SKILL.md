@@ -2,6 +2,10 @@
 id: it.project-learning
 name: project-learning
 display_name: 信息科技项目学习
+description: |
+  信息科技数字化产品研发与项目式学习（PBL）教学设计技能。
+  围绕智慧校园、物联网感知、数字作品创作等真实驱动性任务，引导学生经历需求分析、原型开发、代码测试与成果发布的完整闭环。
+  触发词：信息科技PBL、数字化项目、智慧校园项目、信息技术项目化。
 version: 0.1.0
 status: experimental
 type: teaching-skill

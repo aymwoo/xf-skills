@@ -2,6 +2,10 @@
 id: te.project-learning
 name: project-learning
 display_name: 技术与工程项目学习
+description: |
+  技术与工程领域真实工程挑战项目式学习（PBL）设计技能。
+  围绕桥梁承重、智能灌溉、自避障装置等综合工程情境，组织长周期、跨学科、包含软硬件迭代的工程实践探究。
+  触发词：工程PBL、通用技术项目学习、工程挑战赛、工程实践项目。
 version: 0.1.0
 status: experimental
 type: teaching-skill

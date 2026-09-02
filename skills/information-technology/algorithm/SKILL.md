@@ -2,6 +2,10 @@
 id: it.algorithm
 name: algorithm
 display_name: 算法与计算思维教学
+description: |
+  中小学信息科技算法思维与问题求解教学设计技能。
+  引导学生经历生活问题形式化、算法设计（顺序/分支/循环/递归）、流程图绘制与时间空间复杂度初步评估的思维过程。
+  触发词：算法教学、算法设计、计算思维、排序算法、查找算法、流程图。
 version: 0.1.0
 status: experimental
 type: teaching-skill

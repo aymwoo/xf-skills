@@ -2,6 +2,10 @@
 id: core.assessment-design
 name: assessment-design
 display_name: 学习评价设计
+description: |
+  过程性与总结性兼备的课堂教学评价方案设计技能。
+  基于教学评一致性原则，构建覆盖课前诊断、课中随堂观察与检核、课后表现性任务与达标测试的全程评价工具与量规。
+  触发词：教学评价、评价方案、过程性评价、表现性评价、随堂测验、作业设计。
 version: 0.1.0
 status: experimental
 type: teaching-skill

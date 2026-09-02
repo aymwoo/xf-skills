@@ -33,6 +33,24 @@ export function parseSimpleYaml(yamlStr) {
   let currentArray = null;
   let currentNestedObj = null;
   let nestedKey = null;
+  let multilineKey = null;
+  let multilineType = null;
+  let multilineLines = [];
+
+  function commitMultiline() {
+    if (!multilineKey) return;
+    const joined = multilineType === '>'
+      ? multilineLines.join(' ').trim()
+      : multilineLines.join('\n').trim();
+    if (currentNestedObj && nestedKey === multilineKey) {
+      currentNestedObj[multilineKey] = joined;
+    } else {
+      result[multilineKey] = joined;
+    }
+    multilineKey = null;
+    multilineType = null;
+    multilineLines = [];
+  }
 
   for (let line of lines) {
     line = line.trimEnd();
@@ -40,6 +58,16 @@ export function parseSimpleYaml(yamlStr) {
 
     const indent = line.search(/\S/);
     const trimmed = line.trim();
+
+    // Check if currently collecting multiline scalar
+    if (multilineKey) {
+      if (indent > 0) {
+        multilineLines.push(trimmed);
+        continue;
+      } else {
+        commitMultiline();
+      }
+    }
 
     // Check for nested array item
     if (trimmed.startsWith('- ')) {
@@ -61,6 +89,21 @@ export function parseSimpleYaml(yamlStr) {
       const key = kvMatch[1];
       let val = kvMatch[2].trim();
 
+      // Detect multiline indicator
+      if (val === '|' || val === '>' || val === '|-' || val === '>-') {
+        multilineKey = key;
+        multilineType = val.startsWith('>') ? '>' : '|';
+        multilineLines = [];
+        if (indent === 0) {
+          currentKey = key;
+          currentNestedObj = null;
+          nestedKey = null;
+        } else {
+          nestedKey = key;
+        }
+        continue;
+      }
+
       if (indent === 0) {
         currentNestedObj = null;
         nestedKey = null;
@@ -71,7 +114,6 @@ export function parseSimpleYaml(yamlStr) {
           if (val === '[]') {
             result[key] = [];
           } else {
-            // Might be object or array next
             result[key] = [];
             currentArray = result[key];
           }
@@ -104,6 +146,7 @@ export function parseSimpleYaml(yamlStr) {
     }
   }
 
+  commitMultiline();
   return result;
 }
 

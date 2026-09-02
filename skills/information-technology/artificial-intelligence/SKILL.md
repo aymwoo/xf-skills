@@ -2,6 +2,10 @@
 id: it.artificial-intelligence
 name: artificial-intelligence
 display_name: 人工智能教学
+description: |
+  中小学人工智能素养与原理体验教学设计技能。
+  聚焦机器学习、计算机视觉、自然语言处理等 AI 核心原理体验，融入模型偏见、隐私保护与人工智能伦理思辨。
+  触发词：人工智能教学、AI教学、机器学习体验、AI伦理、大模型教学、智能应用。
 version: 0.1.0
 status: experimental
 type: teaching-skill

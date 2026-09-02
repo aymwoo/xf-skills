@@ -20,6 +20,7 @@
 | `id` | `string` | 是 | 唯一全局标识符，格式 `<scope>.<skill-name>` | `it.programming` |
 | `name` | `string` | 是 | 短横线命名名称 | `programming` |
 | `display_name` | `string` | 是 | 中文显示名称 | `编程教学设计` |
+| `description` | `string` | 推荐 | 技能简要描述与意图触发词（供 Agent 渐进式发现检索） | `面向中小学信息科技的编程教学设计...` |
 | `version` | `string` | 是 | 语义化版本号 | `0.1.0` |
 | `status` | `string` | 是 | 状态：`experimental` / `stable` / `deprecated` | `experimental` |
 | `type` | `string` | 是 | 必须为 `teaching-skill` | `teaching-skill` |

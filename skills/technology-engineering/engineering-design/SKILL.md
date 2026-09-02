@@ -2,6 +2,10 @@
 id: te.engineering-design
 name: engineering-design
 display_name: 工程设计与权衡决策
+description: |
+  普通高中技术与工程（通用技术）工程决策与方案权衡设计技能。
+  基于工程设计过程（EDP），运用 Pugh 决策矩阵与约束分析，引导学生在成本、安全、环保与性能等冲突指标中做出理性的工程折中（Trade-off）。
+  触发词：工程设计、工程思维、方案权衡、Trade-off、Pugh矩阵、工程决策。
 version: 0.1.0
 status: experimental
 type: teaching-skill

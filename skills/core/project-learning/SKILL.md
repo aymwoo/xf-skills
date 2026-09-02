@@ -2,6 +2,10 @@
 id: core.project-learning
 name: project-learning
 display_name: 项目式学习设计
+description: |
+  K-12 跨学科与学科深入型项目式学习（PBL）单元设计技能。
+  基于真实情境确立核心驱动性问题，规划持续探究、支架辅助、里程碑节点、公开成果展示与多元评价方案。
+  触发词：PBL、项目式学习、项目化教学、驱动性问题、单元教学设计、跨学科探究。
 version: 0.1.0
 status: experimental
 type: teaching-skill

@@ -2,6 +2,10 @@
 id: core.rubric-design
 name: rubric-design
 display_name: 评价量规设计
+description: |
+  高质量分析型与整体型评价量规（Rubric）专业设计技能。
+  依据评价目标与表现性任务，建立多维度、分层级（优秀/良好/合格/待改进）、伴随可观察行为锚点与可测判定标准的评价量规。
+  触发词：量规设计、评价量规、Rubric、评分标准、表现性评价、质性评价。
 version: 0.1.0
 status: experimental
 type: teaching-skill

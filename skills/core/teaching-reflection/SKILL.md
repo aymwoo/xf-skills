@@ -2,6 +2,10 @@
 id: core.teaching-reflection
 name: teaching-reflection
 display_name: 教学反思与改进
+description: |
+  基于教学实证数据的课后反思与教案再迭代技能。
+  围绕教学目标达成度、生成性问题、意外状况与学生反馈，提供多维度归因分析及针对性教案改进策略。
+  触发词：教学反思、课后反思、评课反思、教案复盘、教学诊改、改进建议。
 version: 0.1.0
 status: experimental
 type: teaching-skill

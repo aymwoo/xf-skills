@@ -2,6 +2,10 @@
 id: te.technology-design
 name: technology-design
 display_name: 技术设计基础教学
+description: |
+  普通高中通用技术必修2四大核心主题（结构、流程、系统、控制）教学设计技能。
+  围绕受力稳定性、时序环节优化、系统整体性与闭环反馈控制，引导学生掌握技术分析与方案设计方法。
+  触发词：技术设计、结构与设计、流程与设计、系统与设计、控制与设计、通用技术设计。
 version: 0.1.0
 status: experimental
 type: teaching-skill

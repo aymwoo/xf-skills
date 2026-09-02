@@ -2,6 +2,10 @@
 id: te.testing-iteration
 name: testing-iteration
 display_name: 试验测试与迭代优化
+description: |
+  工程破坏性与功能性技术试验测试与闭环迭代教学设计技能。
+  指导学生设计科学的技术试验方案（承重测试、稳定性测试、环境适应性测试），建立测试台账，依据失效模式（FMEA）驱动方案改进。
+  触发词：技术试验、试验测试、迭代优化、破坏性试验、测试台账、失效分析。
 version: 0.1.0
 status: experimental
 type: teaching-skill

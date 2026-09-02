@@ -5,6 +5,19 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.3.3] - 2026-09-02
+
+### Fixed
+- **根治构建脚本被 Git 漏提漏洞**：修正 `.gitignore` 中的 `build/` 规则为 `/build/`，确保 `scripts/build/build-catalog.js` 正式纳入版本控制，彻底杜绝云端 CI 与他人克隆后无法执行 `npm run build:catalog` 的致命隐患。
+- **YAML 解析器块级多行字符串支持**：升级 `scripts/validate/validator.js` 中的 `parseSimpleYaml`，支持 `|` 与 `>` 块级多行语法，彻底解决 `catalog.json` 导出时描述被截断为 `'|'` 的技术债务。
+- **补齐全库 20 个技能的前置描述**：为存量全部 18 个技能在 YAML Front Matter 中补全了 `description` 及其意图触发词，使所有技能在 Antigravity 等 Agent 框架中完全具备原生渐进式发现（Progressive Disclosure）能力。
+- **消除悬空 Schema 引用**：新增 `examples/kb.registry.schema.json` 标准 JSON Schema 文件，验证 `kb.registry.json` 结构合法性。
+- **发布准备检查器动态化**：`scripts/release/check-release.js` 改为动态读取 `package.json` 的版本号，并将 `build-catalog.js` 与 `kb.registry.json` 纳入发布必备清单。
+- **中枢文档与目录同步**：在 `README.md` 架构树中补全 `woodpecker-auditor` 和 `toulmin-assistant`，并修正克隆仓库 URL。
+
+### Added
+- **框架鲁棒性回归测试**：新增 `tests/framework/validator-and-release.test.js`，验证 YAML 多行解析、全库 20 技能描述完备性及核心脚本存在性（测试用例数扩充至 43 项）。
+
 ## [0.3.2] - 2026-09-02
 
 ### Security
