@@ -1,6 +1,6 @@
 {
   "name": "te-woodpecker-auditor",
-  "version": "1.0.0",
+  "version": "0.1.0",
   "displayName": "高中技术与工程教学设计“啄木鸟”审计专家",
   "description": "基于《普通高中通用技术课程标准》与 IMA 多版本教材知识库的苏格拉底追问式教案审计专家。强制落实目标可测、教学评一致性、工程思维认知摩擦三道防线，严禁代写，只促反思。",
   "homepage": "https://ima.qq.com",

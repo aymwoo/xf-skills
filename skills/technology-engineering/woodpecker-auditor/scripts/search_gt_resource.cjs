@@ -1,12 +1,35 @@
 #!/usr/bin/env node
 'use strict';
 
+/**
+ * search_gt_resource.cjs
+ * -----------------------------------------------------------
+ * 高中通用技术 / 信息科技教案审计所用的 IMA 知识库检索器。
+ *
+ * 重要约束（修复 hardcoded local path 后）：
+ *   - 默认不依赖任何本地文件系统目录（localDir 默认为 null）。
+ *   - 仅当设置了 WOODPECKER_GT_LOCAL_DIR / WOODPECKER_IT_LOCAL_DIR 环境变量
+ *     且路径真实存在时，才会启用本地教材 PDF 兜底检索。
+ *   - KB ID 也可通过 WOODPECKER_GT_KB_ID / WOODPECKER_IT_KB_ID 覆盖，便于
+ *     教师在自己环境指向自建 RAG / 私有 IMA 知识库。
+ *   - 调用 pdftotext 时改用 execFile（不经过 shell），杜绝命令注入。
+ *   - 多文件 PDF 处理采用有界并发，避免 60 本教材 5 分钟串行阻塞。
+ *
+ * 设计原则遵循 README 中"Portable · Local-first · Agent-friendly"三大约束。
+ */
+
 const fs = require('fs');
 const path = require('path');
 const os = require('os');
-const { execSync } = require('child_process');
+const { execFile } = require('child_process');
+const { promisify } = require('util');
 
-// Locate imaApi
+const execFileP = promisify(execFile);
+
+// ---------------------------------------------------------------------------
+// IMA API 解析
+// ---------------------------------------------------------------------------
+
 function findImaApi() {
   const candidatePaths = [
     path.join(os.homedir(), '.gemini/config/skills/ima-skills/ima_api.cjs'),
@@ -23,18 +46,26 @@ function findImaApi() {
 
 const imaApi = findImaApi();
 
+// ---------------------------------------------------------------------------
+// 知识库注册（localDir 默认 null，避免写死本地路径）
+// ---------------------------------------------------------------------------
+
 const KB_CONFIG = {
   gt: {
-    id: 'aBIURnoKHvpe9zw092V88KWkftpOGhEe14ItcK34tv0=',
+    id: process.env.WOODPECKER_GT_KB_ID || 'aBIURnoKHvpe9zw092V88KWkftpOGhEe14ItcK34tv0=',
     name: '技术与工程教学',
-    localDir: '/home/wuxf/Develop/ChinaTextbook/高中/通用技术'
+    localDir: process.env.WOODPECKER_GT_LOCAL_DIR || null
   },
   it: {
-    id: '72iYesay6_NLFYUHRxi9lJXDGu36pBH60gn259_PmyQ=',
+    id: process.env.WOODPECKER_IT_KB_ID || '72iYesay6_NLFYUHRxi9lJXDGu36pBH60gn259_PmyQ=',
     name: '信息科技教学',
-    localDir: '/home/wuxf/Develop/ChinaTextbook/高中/信息技术'
+    localDir: process.env.WOODPECKER_IT_LOCAL_DIR || null
   }
 };
+
+// ---------------------------------------------------------------------------
+// 通用技术 / 信息科技学科关键词词典
+// ---------------------------------------------------------------------------
 
 const GT_DOMAIN_KEYWORDS = [
   '电子控制', '控制系统', '闭环控制', '开环控制', '闭环', '开环', '控制', '反馈', '干扰', '控制器', '执行器', '传感器',
@@ -70,6 +101,10 @@ function extractKeywords(rawQuery) {
   return chunks.length > 0 ? chunks : [clean];
 }
 
+// ---------------------------------------------------------------------------
+// CLI 参数解析
+// ---------------------------------------------------------------------------
+
 function parseArgs(argv = process.argv) {
   const args = {
     query: '',
@@ -99,6 +134,10 @@ function parseArgs(argv = process.argv) {
 
   return args;
 }
+
+// ---------------------------------------------------------------------------
+// IMA 云端检索
+// ---------------------------------------------------------------------------
 
 async function searchImaKb(kbId, query) {
   if (!imaApi) {
@@ -148,8 +187,72 @@ async function smartSearchIma(kbId, query, limit = 10) {
   return aggregated;
 }
 
-function searchLocalTextbooks(localDir, query, matchedTitles = [], limit = 3) {
+// ---------------------------------------------------------------------------
+// 本地教材兜底检索（异步、有界并发、零 shell 注入）
+// ---------------------------------------------------------------------------
+
+/**
+ * 简易并发执行器（避免引入额外依赖）。
+ *   items: 待处理任务数组
+ *   concurrency: 最大并发数
+ *   fn: 单任务异步函数
+ */
+async function runWithConcurrency(items, concurrency, fn) {
+  const results = new Array(items.length);
+  let cursor = 0;
+  const workerCount = Math.max(1, Math.min(concurrency, items.length));
+  const workers = Array.from({ length: workerCount }, async () => {
+    while (true) {
+      const idx = cursor++;
+      if (idx >= items.length) return;
+      results[idx] = await fn(items[idx], idx);
+    }
+  });
+  await Promise.all(workers);
+  return results;
+}
+
+/**
+ * 从单个 PDF 中安全提取匹配关键词的上下文片段。
+ * 使用 execFile（不经过 shell）调用 pdftotext，杜绝命令注入。
+ */
+async function extractSnippetFromPdf(pdfPath, keyword) {
+  // 1) pdftotext <file> -  → stdout（参数化，无 shell）
+  const { stdout: text } = await execFileP('pdftotext', [pdfPath, '-'], {
+    maxBuffer: 10 * 1024 * 1024,
+    timeout: 5000
+  });
+
+  // 2) 在 JS 中做关键词 + 上下文切片（替换原 grep -C 3）
+  const lines = String(text).split('\n');
+  const matchIdx = lines.findIndex(l => l && l.includes(keyword));
+  if (matchIdx < 0) return null;
+
+  const start = Math.max(0, matchIdx - 3);
+  const end = Math.min(lines.length, matchIdx + 4);
+  const context = lines
+    .slice(start, end)
+    .filter(l => l && !l.includes('Syntax Error') && !l.includes('Marked Content') && l.trim().length > 0)
+    .slice(0, 10)
+    .join('\n');
+
+  return context.trim() || null;
+}
+
+/**
+ * 在本地教材目录中按关键词打分检索。
+ * 当 localDir 为 null / 不存在 / 不是目录时静默返回空数组。
+ */
+async function searchLocalTextbooks(localDir, query, matchedTitles = [], limit = 3, { concurrency = 4 } = {}) {
+  if (!localDir) return [];
   if (!fs.existsSync(localDir)) return [];
+  let stat;
+  try {
+    stat = fs.statSync(localDir);
+  } catch (err) {
+    return [];
+  }
+  if (!stat.isDirectory()) return [];
 
   const candidateFiles = [];
   try {
@@ -188,35 +291,28 @@ function searchLocalTextbooks(localDir, query, matchedTitles = [], limit = 3) {
   scored.sort((a, b) => b.score - a.score);
   const targetFiles = scored.filter(f => f.score > 0).slice(0, limit);
 
-  const results = [];
-  for (const item of targetFiles) {
+  const grepTarget = keywords.length > 0 ? keywords[0] : query;
+  const snippets = await runWithConcurrency(targetFiles, concurrency, async (item) => {
     try {
-      const grepTarget = keywords.length > 0 ? keywords[0] : query;
-      const cmd = `pdftotext "${item.fullPath}" - 2>/dev/null | grep -E -C 3 "${grepTarget}" | head -n 25`;
-      const textMatch = execSync(cmd, { encoding: 'utf-8', maxBuffer: 10 * 1024 * 1024, timeout: 5000 });
-      if (textMatch && textMatch.trim().length > 0) {
-        const cleanLines = textMatch
-          .split('\n')
-          .filter(l => !l.includes('Syntax Error') && !l.includes('Marked Content') && l.trim().length > 0)
-          .slice(0, 10)
-          .join('\n');
-
-        if (cleanLines.trim()) {
-          results.push({
-            file: item.name,
-            fullPath: item.fullPath,
-            matchedKeyword: grepTarget,
-            snippet: cleanLines.trim()
-          });
-        }
-      }
+      const snippet = await extractSnippetFromPdf(item.fullPath, grepTarget);
+      if (!snippet) return null;
+      return {
+        file: item.name,
+        fullPath: item.fullPath,
+        matchedKeyword: grepTarget,
+        snippet
+      };
     } catch (e) {
-      // Ignore conversion or timeout issues
+      return null; // 解析失败 / 超时均静默跳过
     }
-  }
+  });
 
-  return results;
+  return snippets.filter(Boolean);
 }
+
+// ---------------------------------------------------------------------------
+// 主入口
+// ---------------------------------------------------------------------------
 
 async function main() {
   const { query, subject, publisher, limit, format, extract } = parseArgs(process.argv);
@@ -246,13 +342,14 @@ async function main() {
     let localHits = [];
     if (extract || hits.length === 0) {
       const matchedTitles = hits.map(h => h.title);
-      localHits = searchLocalTextbooks(conf.localDir, query, matchedTitles, 3);
+      localHits = await searchLocalTextbooks(conf.localDir, query, matchedTitles, 3);
     }
 
     allResults.push({
       subject: key,
       kbName: conf.name,
       kbId: conf.id,
+      localDirConfigured: Boolean(conf.localDir),
       imaCount: hits.length,
       imaHits: hits.map(h => ({
         title: h.title,
@@ -294,11 +391,13 @@ async function main() {
         console.log(loc.snippet);
         console.log('```\n');
       }
+    } else if (!res.localDirConfigured) {
+      console.log(`> ℹ️ 未配置本地教材目录（\`WOODPECKER_GT_LOCAL_DIR\` / \`WOODPECKER_IT_LOCAL_DIR\`），仅展示 IMA 云端命中。\n`);
     }
   }
 
   console.log(`---`);
-  console.log(`💡 **啄木鸟审计追问指引**：可结合上述教材标准案例与参数指标，针对教师教案中的“虚化大词”或“缺乏工程约束”展开苏格拉底式追问。`);
+  console.log(`💡 **啄木鸟审计追问指引**：可结合上述教材标准案例与参数指标，针对教师教案中的"虚化大词"或"缺乏工程约束"展开苏格拉底式追问。`);
 }
 
 if (require.main === module) {
@@ -315,5 +414,7 @@ module.exports = {
   searchImaKb,
   smartSearchIma,
   searchLocalTextbooks,
+  extractSnippetFromPdf,
+  runWithConcurrency,
   KB_CONFIG
 };

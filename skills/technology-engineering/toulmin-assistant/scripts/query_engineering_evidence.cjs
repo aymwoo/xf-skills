@@ -1,10 +1,31 @@
 #!/usr/bin/env node
 'use strict';
 
+/**
+ * query_engineering_evidence.cjs
+ * -----------------------------------------------------------
+ * 高中通用技术图尔敏论证式助教所用的 IMA 知识库检索器。
+ *
+ * 重要约束（与 search_gt_resource.cjs 保持一致）：
+ *   - 默认不依赖任何本地文件系统目录（localDir 默认为 null）。
+ *   - 仅当设置了 TOULMIN_GT_LOCAL_DIR / TOULMIN_IT_LOCAL_DIR 环境变量
+ *     且路径真实存在时，才会启用本地教材 PDF 兜底检索。
+ *   - KB ID 也可通过 TOULMIN_GT_KB_ID / TOULMIN_IT_KB_ID 覆盖。
+ *   - 调用 pdftotext 时改用 execFile（不经过 shell），杜绝命令注入。
+ *   - 多文件 PDF 处理采用有界并发。
+ */
+
 const fs = require('fs');
 const path = require('path');
 const os = require('os');
-const { execSync } = require('child_process');
+const { execFile } = require('child_process');
+const { promisify } = require('util');
+
+const execFileP = promisify(execFile);
+
+// ---------------------------------------------------------------------------
+// IMA API 解析
+// ---------------------------------------------------------------------------
 
 function findImaApi() {
   const candidatePaths = [
@@ -22,18 +43,26 @@ function findImaApi() {
 
 const imaApi = findImaApi();
 
+// ---------------------------------------------------------------------------
+// 知识库注册（localDir 默认 null，避免写死本地路径）
+// ---------------------------------------------------------------------------
+
 const KB_CONFIG = {
   gt: {
-    id: 'aBIURnoKHvpe9zw092V88KWkftpOGhEe14ItcK34tv0=',
+    id: process.env.TOULMIN_GT_KB_ID || 'aBIURnoKHvpe9zw092V88KWkftpOGhEe14ItcK34tv0=',
     name: '技术与工程教学',
-    localDir: '/home/wuxf/Develop/ChinaTextbook/高中/通用技术'
+    localDir: process.env.TOULMIN_GT_LOCAL_DIR || null
   },
   it: {
-    id: '72iYesay6_NLFYUHRxi9lJXDGu36pBH60gn259_PmyQ=',
+    id: process.env.TOULMIN_IT_KB_ID || '72iYesay6_NLFYUHRxi9lJXDGu36pBH60gn259_PmyQ=',
     name: '信息科技教学',
-    localDir: '/home/wuxf/Develop/ChinaTextbook/高中/信息技术'
+    localDir: process.env.TOULMIN_IT_LOCAL_DIR || null
   }
 };
+
+// ---------------------------------------------------------------------------
+// 学科关键词词典
+// ---------------------------------------------------------------------------
 
 const TOULMIN_DOMAIN_KEYWORDS = [
   '结构', '稳定性', '结构强度', '受力', '形变', '压应力', '拉应力', '弯矩', '弯曲', '桁架', '纸梁', '桥梁', '榫卯', '破坏',
@@ -66,6 +95,10 @@ function extractKeywords(rawQuery) {
   return chunks.length > 0 ? chunks : [clean];
 }
 
+// ---------------------------------------------------------------------------
+// CLI 参数解析
+// ---------------------------------------------------------------------------
+
 function parseArgs(argv = process.argv) {
   const args = {
     topic: '',
@@ -92,6 +125,10 @@ function parseArgs(argv = process.argv) {
 
   return args;
 }
+
+// ---------------------------------------------------------------------------
+// IMA 云端检索
+// ---------------------------------------------------------------------------
 
 async function searchImaKb(kbId, query) {
   if (!imaApi) {
@@ -139,8 +176,56 @@ async function smartSearchIma(kbId, query, limit = 5) {
   return aggregated;
 }
 
-function searchLocalTextbooks(localDir, query, limit = 2) {
+// ---------------------------------------------------------------------------
+// 本地教材兜底检索（异步、有界并发、零 shell 注入）
+// ---------------------------------------------------------------------------
+
+async function runWithConcurrency(items, concurrency, fn) {
+  const results = new Array(items.length);
+  let cursor = 0;
+  const workerCount = Math.max(1, Math.min(concurrency, items.length));
+  const workers = Array.from({ length: workerCount }, async () => {
+    while (true) {
+      const idx = cursor++;
+      if (idx >= items.length) return;
+      results[idx] = await fn(items[idx], idx);
+    }
+  });
+  await Promise.all(workers);
+  return results;
+}
+
+async function extractSnippetFromPdf(pdfPath, keyword) {
+  const { stdout: text } = await execFileP('pdftotext', [pdfPath, '-'], {
+    maxBuffer: 10 * 1024 * 1024,
+    timeout: 5000
+  });
+
+  const lines = String(text).split('\n');
+  const matchIdx = lines.findIndex(l => l && l.includes(keyword));
+  if (matchIdx < 0) return null;
+
+  const start = Math.max(0, matchIdx - 3);
+  const end = Math.min(lines.length, matchIdx + 4);
+  const context = lines
+    .slice(start, end)
+    .filter(l => l && !l.includes('Syntax Error') && !l.includes('Marked Content') && l.trim().length > 0)
+    .slice(0, 8)
+    .join('\n');
+
+  return context.trim() || null;
+}
+
+async function searchLocalTextbooks(localDir, query, limit = 2, { concurrency = 4 } = {}) {
+  if (!localDir) return [];
   if (!fs.existsSync(localDir)) return [];
+  let stat;
+  try {
+    stat = fs.statSync(localDir);
+  } catch (err) {
+    return [];
+  }
+  if (!stat.isDirectory()) return [];
 
   const candidateFiles = [];
   try {
@@ -174,32 +259,26 @@ function searchLocalTextbooks(localDir, query, limit = 2) {
   scored.sort((a, b) => b.score - a.score);
   const targetFiles = scored.filter(f => f.score > 0).slice(0, limit);
 
-  const results = [];
-  for (const item of targetFiles) {
+  const grepTarget = keywords.length > 0 ? keywords[0] : query;
+  const snippets = await runWithConcurrency(targetFiles, concurrency, async (item) => {
     try {
-      const grepTarget = keywords.length > 0 ? keywords[0] : query;
-      const cmd = `pdftotext "${item.fullPath}" - 2>/dev/null | grep -E -C 3 "${grepTarget}" | head -n 20`;
-      const textMatch = execSync(cmd, { encoding: 'utf-8', maxBuffer: 10 * 1024 * 1024, timeout: 5000 });
-      if (textMatch && textMatch.trim().length > 0) {
-        const cleanLines = textMatch
-          .split('\n')
-          .filter(l => !l.includes('Syntax Error') && !l.includes('Marked Content') && l.trim().length > 0)
-          .slice(0, 8)
-          .join('\n');
-
-        if (cleanLines.trim()) {
-          results.push({
-            file: item.name,
-            snippet: cleanLines.trim()
-          });
-        }
-      }
+      const snippet = await extractSnippetFromPdf(item.fullPath, grepTarget);
+      if (!snippet) return null;
+      return {
+        file: item.name,
+        snippet
+      };
     } catch (e) {
-      // ignore
+      return null;
     }
-  }
-  return results;
+  });
+
+  return snippets.filter(Boolean);
 }
+
+// ---------------------------------------------------------------------------
+// 主入口
+// ---------------------------------------------------------------------------
 
 async function main() {
   const { topic, stage, limit, format, extract } = parseArgs(process.argv);
@@ -214,7 +293,7 @@ async function main() {
 
   let localHits = [];
   if (extract || hits.length === 0) {
-    localHits = searchLocalTextbooks(KB_CONFIG.gt.localDir, topic, 2);
+    localHits = await searchLocalTextbooks(KB_CONFIG.gt.localDir, topic, 2);
   }
 
   if (format === 'json') {
@@ -222,6 +301,7 @@ async function main() {
       topic,
       stage,
       extractedKeywords: extractKeywords(topic),
+      localDirConfigured: Boolean(KB_CONFIG.gt.localDir),
       textbookHits: hits.map(h => ({ title: h.title, mediaId: h.media_id })),
       evidenceSnippets: localHits
     }, null, 2));
@@ -250,6 +330,8 @@ async function main() {
       console.log(loc.snippet);
       console.log('```\n');
     }
+  } else if (!KB_CONFIG.gt.localDir) {
+    console.log(`> ℹ️ 未配置本地教材目录（\`TOULMIN_GT_LOCAL_DIR\`），仅展示 IMA 云端命中。\n`);
   }
 
   if (stage === 'data' || stage === 'rebuttal') {
@@ -276,5 +358,7 @@ module.exports = {
   searchImaKb,
   smartSearchIma,
   searchLocalTextbooks,
+  extractSnippetFromPdf,
+  runWithConcurrency,
   KB_CONFIG
 };

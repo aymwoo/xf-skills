@@ -24,6 +24,8 @@ skills:
   - te.prototyping
   - te.testing-iteration
   - te.technical-practice
+  - te.woodpecker-auditor
+  - te.toulmin-assistant
 
 knowledge:
   - common.pedagogy.bloom-taxonomy

@@ -5,6 +5,49 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.3.1] - 2026-09-02
+
+### Security
+- **去除检索脚本中的命令注入面**：`search_gt_resource.cjs` / `query_engineering_evidence.cjs` 原本使用 `execSync + grep` shell 拼接，存在命令注入风险。现改用 `execFile`（不走 shell），杜绝关键词中的恶意字符被作为 shell 命令执行。
+
+### Changed
+- **解除检索脚本对本地绝对路径的硬编码**：原本两脚本中均写死 `/home/wuxf/Develop/ChinaTextbook/...` 路径，违反仓库 `Portable` 与 `Local-first & Portable` 架构原则。现重构为：
+  - 本地教材 PDF 兑底目录默认 `null`（仅云端检索），可通过 `WOODPECKER_GT_LOCAL_DIR` / `WOODPECKER_IT_LOCAL_DIR` / `TOULMIN_GT_LOCAL_DIR` / `TOULMIN_IT_LOCAL_DIR` 环境变量按需启用。
+  - IMA KB ID 默认不变，但可通过 `WOODPECKER_GT_KB_ID` / `WOODPECKER_IT_KB_ID` / `TOULMIN_GT_KB_ID` / `TOULMIN_IT_KB_ID` 覆盖，方便教师切换自建 RAG。
+  - 新增根仓门示例文件 `examples/.env.example`，避免每个 Skill 各自重复一份配置模板。
+- **PDF 检索从串行改为有界并发**：新增 `runWithConcurrency` 助手函数，默认 4 worker 并发调用 `pdftotext`，避免 60 本教材 5 分钟串行阻塞。
+- **`te.woodpecker-auditor` 红线二增加教师主动解锁例外协议**：明确教师明确请求跳过某个阶段时，审计专家可警示一次风险后允许跳阶段，同时记录目标层隐患，避免「步骤锁死」过严误伤合法需求。
+- **`te.woodpecker-auditor` 三道防线 × 五大核心素养显式映射**：在 `SKILL.md §4` 每阶段标题下加「本阶段重点素养」标注，并在 `§5.1` 提供 3×5 可视映射表，让教师/Agent 一眼看到当前阶段主诊项。
+- **`te.woodpecker-auditor` 场景三苏格拉底密度精炼**：原本 ~110 字的「打开课标独立填方括号」超长反问拆为两轮（「封锁+拒代」+「追问查证方法论」），避免教师阅读疲劳，同时升级出新教学法点「查证路径 > 查证结果」。
+- **`te.toulmin-assistant` 四阶段 × 五大核心素养映射表 + 字数硬校验流程**：`SKILL.md §6.1` 提供 4×5 可视映射表，`§6.2` 提供 5 步字数拆分规则（含极端场景例外说明）。
+- **同步 `te.woodpecker-auditor/meta.json` 版本号**：从 `1.0.0` 修正为 `0.1.0`，与 `SKILL.md` Front Matter 一致。
+- **`pack.te.high-school` 正式收容两个实验性 Skill**：在 `packs/technology-engineering/high-school/pack.yaml` 的 `skills:` 列表中加入 `te.woodpecker-auditor` 与 `te.toulmin-assistant`，教师引入 Pack 后一键获得全部能力。
+
+### Added
+- **5 份完整教学案例**（`examples/`）补齐至 `CONTRIBUTING.md §三` 规范要求：
+  - `skills/technology-engineering/woodpecker-auditor/examples/`:
+    - `case-01-objective-audit.md`：第一道防线「目标可测量」审计完整 transcript。
+    - `case-02-engineering-friction.md`：第三道防线「工程思维摩擦」审计 + Pugh 决策矩阵嵌入。
+    - `case-03-freeze-and-skeleton.md`：红线四+五「整篇冻结与拒绝代劳」双重防御实录。
+  - `skills/technology-engineering/toulmin-assistant/examples/`:
+    - `case-paper-bridge-4turn.md`：瓦楞纸梁「Claim→Data→Warrant→Rebuttal」四轮交锋。
+    - `case-rebuttal-tradeoff.md`：闭环温控「反驳阶段」Trade-off 权衡。
+- **2 份 Skill README 升级**：woodpecker-auditor 与 toulmin-assistant 的 `README.md` 从 4 行简介扩充为「简介 + 适用年级模块表 + 防线/阶段速查卡 + 与另一个 Skill 的边界对照表 + 5 分钟快速上手 + 关联资源 + 维护信息」七段式。
+- **环境变量示例文件 `examples/.env.example`**：统一两个 Skill 的配置项，含 `IMA_OPENAPI_CLIENTID/APIKEY`、`*_KB_ID`、`*_LOCAL_DIR` 三个分组，并在注释中明确「严禁写死其他开发者机器绝对路径」。
+- **5 个 P2 集成测试**（`tests/technology-engineering/te-packs.test.js`）：
+  - pack.yaml 引用两 Skill 的静态校验。
+  - woodpecker SKILL.md 包含「三道防线 × 五大核心素养映射表」。
+  - woodpecker SKILL.md 红线二包含「教师主动解锁例外协议」。
+  - woodpecker SKILL.md 场景三拆为两轮。
+  - toulmin SKILL.md 包含「四阶段 × 五大核心素养映射表」与「字数硬校验流程」。
+
+### Tests
+- `npm test` 用例数从 11 扩充至 **25**（净增 14）：
+  - 原有 11 个 Core / IT / Packs / 检索器单元测试不变。
+  - 新增 8 个检索脚本集成测试（localDir 默认 null / null 路径兑底 / 有界并发实测 / execFile 防注入静态扫描）。
+  - 新增 5 个 TE Packs 集成测试（见上节）。
+- `npm run validate`：全部 20 个 Skill + 2 个 Pack + 6 个 Template + 19 个 Knowledge 模块依旧全量通过静态验证。
+
 ## [0.3.0] - 2026-09-02
 
 ### Added
