@@ -5,6 +5,16 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.3.0] - 2026-09-02
+
+### Added
+- **图尔敏论证式工程助教 (`te.toulmin-assistant`)**:
+  - 新增专注于高中通用技术（技术与工程）实践项目的“图尔敏论证式工程助教”技能。
+  - **图尔敏四阶段引导模型**：落实阶段一“澄清主张 (Claim)”、阶段二“索取论据 (Data)”、阶段三“建立推理 (Warrant)”、阶段四“引入反驳与权衡 (Rebuttal & Trade-off)”。
+  - **三大认知摩擦红线**：绝不直接提供现成方案或图纸、坚持“看证据不凭感觉”数据拦截门禁、单步轻量推进且每次回答严格控制在 150 字以内。
+  - **IMA 知识库工程实证联动**：内置 `query_engineering_evidence.cjs` 检索工具，支持调取 IMA 59 册官方教材力学极限、规范量纲与典型失效数据作为追问事实源。
+  - **自动化测试集成**：新增 `tests/technology-engineering/toulmin-assistant.test.js`，更新 `te-skills.test.js` 至 8 项 TE 技能，全量通过。
+
 ## [0.2.1] - 2026-09-02
 
 ### Changed

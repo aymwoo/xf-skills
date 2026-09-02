@@ -8,7 +8,7 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const ROOT_DIR = path.resolve(__dirname, '../../');
 
-test('Technology & Engineering Suite: All 7 TE skills must be valid and reflect engineering process', (t) => {
+test('Technology & Engineering Suite: All 8 TE skills must be valid and reflect engineering process', (t) => {
   const validator = new FrameworkValidator(ROOT_DIR);
   const report = validator.run();
 
@@ -21,7 +21,8 @@ test('Technology & Engineering Suite: All 7 TE skills must be valid and reflect 
     'te.prototyping',
     'te.testing-iteration',
     'te.technical-practice',
-    'te.woodpecker-auditor'
+    'te.woodpecker-auditor',
+    'te.toulmin-assistant'
   ];
 
   for (const skillId of expectedTeSkills) {

@@ -1,0 +1,14 @@
+{
+  "name": "te-toulmin-assistant",
+  "version": "0.1.0",
+  "displayName": "图尔敏论证式工程助教",
+  "description": "专注于高中工程与技术（通用技术）实践项目的图尔敏论证式工程助教。基于主张、论据、推理、反驳四要素与认知摩擦红线，引导学生严谨论证与权衡迭代，拒绝直接给答案，回答不超150字。",
+  "homepage": "https://ima.qq.com",
+  "author": "Teaching Skills Framework Contributors",
+  "requires": {
+    "env": [
+      "IMA_OPENAPI_CLIENTID",
+      "IMA_OPENAPI_APIKEY"
+    ]
+  }
+}
