@@ -5,6 +5,21 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.6.0] - 2026-09-02
+
+### Added
+- **动态知识库连接器架构 (Knowledge Provider SPI & Multi-Adapter System)**:
+  - 在 `scripts/shared/knowledge/` 落地工业级、零外部 npm 依赖的知识检索中枢。
+  - **四大标准适配器**：
+    - `BaseKnowledgeAdapter`：抽象基类，规范生命周期、超时与异常保护；
+    - `ImaKnowledgeAdapter`：封装腾讯 IMA OpenAPI，对接官方 59 册通用技术与 48 册信息科技教材；
+    - `LocalKnowledgeAdapter`：支持离线机房环境，安全扫描本地校本 Markdown 与通过 `execFile` 沙箱调用 `pdftotext` 解析 PDF；
+    - `RestKnowledgeAdapter`：基于 Node.js 18+ 原生内置 `fetch`，通用对接 Dify Dataset API、FastGPT 及私有云 RAG 端点。
+  - **多源级联降级中枢 (`KnowledgeProviderFactory`)**：支持凭证与网络连通性检测，云端异常时自动降级至本地校本知识库或内置 Markdown 模块。
+  - **终端 CLI 升级**：新增 `xf-skills kb <query> [--provider=ima|local|dify]` 命令，支持跨适配器即时检索。
+  - **注册表与 Schema 扩展**：升级 `examples/kb.registry.json` 与 `examples/kb.registry.schema.json` 规范定义 `connectors` 字段。
+  - **单元测试扩充**：新增 `tests/framework/knowledge-connector.test.js`，全库测试套件扩充至 **75 项测试用例全部绿灯通过**。
+
 ## [0.5.0] - 2026-09-02
 
 ### Added

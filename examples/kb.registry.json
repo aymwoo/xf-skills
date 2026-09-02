@@ -30,6 +30,24 @@
       "kb_id_env": null
     }
   },
+  "connectors": {
+    "ima_default": {
+      "type": "ima",
+      "description": "默认腾讯 IMA 云端官方教材知识库"
+    },
+    "local_school_textbooks": {
+      "type": "local",
+      "description": "本地校本教材与教案目录 (通过环境变量配置路径)",
+      "path_env": "SCHOOL_TEXTBOOKS_LOCAL_DIR"
+    },
+    "school_rag_dify": {
+      "type": "dify",
+      "description": "学校私有化 Dify / FastGPT 知识库 (基于原生 fetch 访问)",
+      "endpoint_env": "KNOWLEDGE_REST_ENDPOINT",
+      "api_key_env": "KNOWLEDGE_REST_APIKEY",
+      "dataset_id_env": "KNOWLEDGE_REST_DATASET_ID"
+    }
+  },
   "resolution_rules": {
     "priority_order": [
       "1. 进程环境变量（WOODPECKER_*_KB_ID / TOULMIN_*_KB_ID / KB_REGISTRY_PATH 等）",

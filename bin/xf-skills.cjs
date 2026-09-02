@@ -50,6 +50,7 @@ function printHelp() {
   search <query>           根据关键词/标签/触发词搜索技能
   info <skill-id>          查阅指定技能的完整规约、依赖与认知红线
   chat <skill-id> [--mock] 启动终端交互式苏格拉底追问模拟体验
+  kb <query> [--provider]  跨适配器检索在线/离线知识库 (IMA/Dify/Local)
   validate                 运行框架静态规范校验器
   version, -v              查看当前框架版本号
   help, -h                 查看此帮助信息
@@ -57,6 +58,7 @@ function printHelp() {
 示例:
   xf-skills list
   xf-skills search 闭环控制
+  xf-skills kb "列表越界 IndexError" --provider=ima
   xf-skills info te.toulmin-assistant
   xf-skills chat it.primm-debugger --mock
 `);
@@ -273,6 +275,40 @@ function main() {
     const isMock = args.includes('--mock');
     const skillId = args.find(a => a !== 'chat' && a !== '--mock');
     handleChat(skillId, isMock);
+    return;
+  }
+
+  if (cmd === 'kb') {
+    const query = args[1];
+    if (!query) {
+      console.error('❌ 请提供检索词，如: xf-skills kb "二分查找"');
+      process.exit(1);
+    }
+    let provider = 'auto';
+    for (const a of args.slice(2)) {
+      if (a.startsWith('--provider=')) {
+        provider = a.split('=')[1];
+      }
+    }
+    const { searchKnowledge } = require('../scripts/shared/knowledge/index.cjs');
+    console.log(`\n🔍 正在检索知识库 (适配器: ${provider}, 查询: "${query}")...\n`);
+    searchKnowledge(query, { provider }).then(hits => {
+      if (hits.length === 0) {
+        console.log('⚠️ 未检索到匹配的知识切片。');
+      } else {
+        console.log(`✅ 找到 ${hits.length} 条知识切片:\n`);
+        for (const h of hits) {
+          console.log(`📄 \x1b[36m[${h.sourceType.toUpperCase()}]\x1b[0m ${h.title}`);
+          if (h.content) {
+            const snippet = h.content.trim().slice(0, 150).replace(/\n+/g, ' ');
+            console.log(`   \x1b[90m${snippet}...\x1b[0m\n`);
+          }
+        }
+      }
+    }).catch(err => {
+      console.error('❌ 检索失败:', err.message);
+      process.exit(1);
+    });
     return;
   }
 

@@ -57,6 +57,21 @@
         }
       }
     },
+    "connectors": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "object",
+        "required": ["type"],
+        "properties": {
+          "type": { "type": "string" },
+          "description": { "type": "string" },
+          "path_env": { "type": "string" },
+          "endpoint_env": { "type": "string" },
+          "api_key_env": { "type": "string" },
+          "dataset_id_env": { "type": "string" }
+        }
+      }
+    },
     "resolution_rules": {
       "type": "object",
       "properties": {

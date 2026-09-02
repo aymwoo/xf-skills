@@ -31,3 +31,8 @@ test('cli suite: xf-skills chat --mock runs Socratic demonstration', async () =>
   assert.ok(stdout.includes('模拟对话演示模式'));
   assert.ok(stdout.includes('年轻的程序员'));
 });
+
+test('cli suite: xf-skills kb cascades to local knowledge', async () => {
+  const { stdout } = await execFileP(CLI_PATH, ['kb', '计算思维']);
+  assert.ok(stdout.includes('找到') && stdout.includes('LOCAL'));
+});
