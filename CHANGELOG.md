@@ -7,6 +7,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [0.3.2] - 2026-09-02
 
+### Security
+- **防回退机制：SKILL.md 与 Skill 脚本不再出现裸 KB ID**：
+  - v0.3.1 修复了脚本中的 `execSync` 拼接注入面，本次进一步保证**任何未来 PR 都不可能再次把裸 KB ID 写进 Skill 脚本或 SKILL.md**。
+  - `tests/technology-engineering/kb-registry.test.js` 末尾的反向扫描 walker（递归 `skills/` 与 `scripts/shared/`，排除 `kb-registry.cjs` 本体）作为 CI 网门拦截，扫描到任意外泄 ID 字符串即断言失败。
+
+### Removed
+- **从 Skill 脚本与 SKILL.md 正文移除裸 KB ID**：
+  - `search_gt_resource.cjs` / `query_engineering_evidence.cjs` 不再内联 `aBIURnoKHvpe9zw092V88KWkftpOGhEe14ItcK34tv0=` / `72iYesay6_NLFYUHRxi9lJXDGu36pBH60gn259_PmyQ=`。
+  - 两个 SKILL.md 不再在正文中明文列出 KB ID。
+  - `examples/.env.example` 不再以未注释形式重复默认值。
+
 ### Changed
 - **KB 注册迁出 SKILL.md / 脚本正文，统一到 `examples/kb.registry.json` 资源文件**：
   - 新增集中注册表文件 `examples/kb.registry.json`，含 `gt`（技术与工程教学，59 册）与 `it`（信息科技教学）两个知识库的结构化元数据（ID、名称、描述、教材数量、出版社、覆写策略）。
