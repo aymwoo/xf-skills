@@ -152,21 +152,62 @@ teaching-skills/
 
 ---
 
-## 🎯 当前学科与能力支持
+## 🎯 核心技能库与文档索引 (Skills Directory & Documentation)
 
-### 1. 第一阶段支持学科
+框架内全量收录的 **23 项专业教学技能** 均配有独立的专用说明文档（`README.md`）与执行规约（`SKILL.md`）。  
+点击下表中对应的 **文档链接**，可查阅该技能的理论依据、认知红线、素养映射与完整实战交互范例：
 
-| 学科 (Subject) | 标识符 | 核心特色与教学法关注点 |
-| :--- | :--- | :--- |
-| **信息科技** (Information Technology) | `it.*` | 计算思维、算法思维、PRIMM 编程教学法、代码脚手架、调试认知支持、AI 伦理 |
-| **技术与工程** (Technology & Engineering) | `te.*` | 问题发现、需求分析、方案权衡、图样表达、材料工艺、试验测试、迭代优化 |
+### 📚 1. 通用教学法基座技能集 (Common Core, 6 项)
+通用技能集严格遵循经典教育学理论（布鲁姆目标分类学、加涅教学九事件、教学评一致性、逆向设计 UbD），为各分学科技能提供底层支撑：
 
-### 2. 未来平滑扩展计划 (Roadmap)
+| 技能标识 (ID) | 技能名称 | 核心功能与定位说明 | 专属文档与规约 |
+| :--- | :--- | :--- | :---: |
+| `core.lesson-design` | **通用教学设计** | 规范课时教学设计方案，指导学情分析、撰写 ABCD 目标与教-学-评对齐 | [📖 README](skills/core/lesson-design/README.md) · [📜 SKILL](skills/core/lesson-design/SKILL.md) |
+| `core.activity-design` | **课堂活动设计** | 以学生为中心的任务单设计，基于加涅教学事件规划驱动问题与探究支架 | [📖 README](skills/core/activity-design/README.md) · [📜 SKILL](skills/core/activity-design/SKILL.md) |
+| `core.assessment-design` | **学习评价设计** | 过程性与总结性兼备的评价方案，涵盖随堂观察检核、阶段诊断与表现性任务 | [📖 README](skills/core/assessment-design/README.md) · [📜 SKILL](skills/core/assessment-design/SKILL.md) |
+| `core.rubric-design` | **评价量规设计** | 高质量分析型量规（Rubric），建立多维度、4 等级的可测质性评价锚点 | [📖 README](skills/core/rubric-design/README.md) · [📜 SKILL](skills/core/rubric-design/SKILL.md) |
+| `core.project-learning` | **项目式学习设计** | K-12 跨学科 PBL 单元设计，确立驱动性问题、进阶里程碑与公开展示 | [📖 README](skills/core/project-learning/README.md) · [📜 SKILL](skills/core/project-learning/SKILL.md) |
+| `core.teaching-reflection` | **教学反思与改进** | 基于课堂实证数据的课后反思，诊断意外学情并提供教案再迭代策略 | [📖 README](skills/core/teaching-reflection/README.md) · [📜 SKILL](skills/core/teaching-reflection/SKILL.md) |
 
-由于框架 Core 层与 Subject 层完全解耦，未来将平滑支持以下学科扩展，无需调整底层架构：
+### 💻 2. 信息科技学科技能集 (Information Technology, 8 项)
+聚焦中小学信息科技课标，突出**计算思维（分解、模式识别、抽象、算法）**系统化培养，具备完备的备课审计与机房认知调试双旗舰：
+
+| 技能标识 (ID) | 技能名称 | 核心功能与特色亮点 | 专属文档与规约 |
+| :--- | :--- | :--- | :---: |
+| `it.programming` | **编程教学设计** | 自然语言 ➔ 伪代码 ➔ 流程图 ➔ 代码渐进式脚手架，防语法死记硬背 | [📖 README](skills/information-technology/programming/README.md) · [📜 SKILL](skills/information-technology/programming/SKILL.md) |
+| `it.algorithm` | **算法思维教学** | 枚举、二分、查找、排序、递归等经典算法教学，指导时空复杂度评估 | [📖 README](skills/information-technology/algorithm/README.md) · [📜 SKILL](skills/information-technology/algorithm/SKILL.md) |
+| `it.data` | **数据处理教学** | 数据编码、二维数据统计、可视化表达与数据爬虫真实情境应用 | [📖 README](skills/information-technology/data/README.md) · [📜 SKILL](skills/information-technology/data/SKILL.md) |
+| `it.artificial-intelligence` | **人工智能教学** | 机器学习体验、计算机视觉、大模型原理及数据隐私与 AI 伦理思辨 | [📖 README](skills/information-technology/artificial-intelligence/README.md) · [📜 SKILL](skills/information-technology/artificial-intelligence/SKILL.md) |
+| `it.computational-thinking` | **计算思维培养** | 无插电（CS Unplugged）与编程上机双轨驱动，复杂现实问题形式化建模 | [📖 README](skills/information-technology/computational-thinking/README.md) · [📜 SKILL](skills/information-technology/computational-thinking/SKILL.md) |
+| `it.project-learning` | **信息科技项目学习** | 数字化产品全流程设计，指导微型系统开发、智能物联小车与仪表盘发布 | [📖 README](skills/information-technology/project-learning/README.md) · [📜 SKILL](skills/information-technology/project-learning/SKILL.md) |
+| ⭐ `it.primm-debugger` | **PRIMM 调试助教**<br>*(学生端旗舰)* | **阻断 AI 代写代改代码**。依据 PRIMM 模型，凭 Traceback 门禁放行，单步追问 $\le 150$ 字 | [📖 README](skills/information-technology/primm-debugger/README.md) · [📜 SKILL](skills/information-technology/primm-debugger/SKILL.md) |
+| ⭐ `it.woodpecker-auditor` | **IT 教案啄木鸟**<br>*(教师端旗舰)* | **三道防线审计**：严打“语法泡沫”、“计算思维虚化”与“直接投喂源码照抄”，严禁代写 | [📖 README](skills/information-technology/woodpecker-auditor/README.md) · [📜 SKILL](skills/information-technology/woodpecker-auditor/SKILL.md) |
+
+### 🛠️ 3. 技术与工程学科技能集 (Technology & Engineering, 8 项)
+聚焦普通高中通用技术课标，严格落地**工程思维闭环（需求分析 ➔ 方案构思 ➔ 物化成型 ➔ 破坏测试 ➔ 权衡决策）**：
+
+| 技能标识 (ID) | 技能名称 | 核心功能与特色亮点 | 专属文档与规约 |
+| :--- | :--- | :--- | :---: |
+| `te.technology-design` | **技术设计基础教学** | 必修2四大核心主题：结构与受力、流程时序、系统整体性与闭环控制系统 | [📖 README](skills/technology-engineering/technology-design/README.md) · [📜 SKILL](skills/technology-engineering/technology-design/SKILL.md) |
+| `te.engineering-design` | **工程设计与权衡** | 真实工程多目标约束决策，运用矩阵法化解强度、自重、成本冲突（Trade-off） | [📖 README](skills/technology-engineering/engineering-design/README.md) · [📜 SKILL](skills/technology-engineering/engineering-design/SKILL.md) |
+| `te.prototyping` | **样品制作与原型加工** | 物化工艺规划、三视图草图、工具安全纪律与现代创客（3D打印/激光切割）加工 | [📖 README](skills/technology-engineering/prototyping/README.md) · [📜 SKILL](skills/technology-engineering/prototyping/SKILL.md) |
+| `te.testing-iteration` | **试验测试与迭代优化** | 承重破坏性试验与功能检测，基于应力应变与失效截面反思结构强度与稳定性 | [📖 README](skills/technology-engineering/testing-iteration/README.md) · [📜 SKILL](skills/technology-engineering/testing-iteration/SKILL.md) |
+| `te.technical-practice` | **技术实践与工艺实训** | 规范使用金工木工工具，强化劳动安全、装配精度公差与工匠精神 | [📖 README](skills/technology-engineering/technical-practice/README.md) · [📜 SKILL](skills/technology-engineering/technical-practice/SKILL.md) |
+| `te.project-learning` | **技术与工程项目学习** | 真实工程挑战 PBL：纸梁承重、自动寻光太阳能板、温室无土栽培环境控制 | [📖 README](skills/technology-engineering/project-learning/README.md) · [📜 SKILL](skills/technology-engineering/project-learning/SKILL.md) |
+| ⭐ `te.woodpecker-auditor` | **工程教案啄木鸟**<br>*(教师端旗舰)* | **三道防线严厉审计**：严查素养假大空与手工劳作假工程，联动云端 59 册通用技术教材 | [📖 README](skills/technology-engineering/woodpecker-auditor/README.md) · [📜 SKILL](skills/technology-engineering/woodpecker-auditor/SKILL.md) |
+| ⭐ `te.toulmin-assistant` | **图尔敏工程助教**<br>*(学生端旗舰)* | **阻断现成图纸索取**。引导学生运用图尔敏论证模型（主张-论据-推理-权衡）四阶段自辩 | [📖 README](skills/technology-engineering/toulmin-assistant/README.md) · [📜 SKILL](skills/technology-engineering/toulmin-assistant/SKILL.md) |
+
+### 🔬 4. 物理学科与 STEM 探究 (Physics, 1 项)
+连接传感器实测数据与数理规律推演的底层科学探究基石：
+
+| 技能标识 (ID) | 技能名称 | 核心功能与特色亮点 | 专属文档与规约 |
+| :--- | :--- | :--- | :---: |
+| ⭐ `physics.experiment-inquiry` | **DIS 数字化实验探究** | 融合 DIS 力、光电门、位移传感器，重构“猜想控制变量 ➔ 毫秒级采集 ➔ 坐标图象化曲为直拟合 ➔ 阻力误差归因” | [📖 README](skills/physics/experiment-inquiry/README.md) · [📜 SKILL](skills/physics/experiment-inquiry/SKILL.md) |
+
+### 🗺️ 5. 未来平滑扩展路线图 (Roadmap)
+由于核心层 Core 与学科层完全解耦，后续将平滑支持以下基础学科扩展接入：
 - 📐 **数学 (Mathematics)**: 数学建模、数形结合、逆向题组设计
-- 🔬 **物理 (Physics)**: 物理实验探究、理想化模型建构、错因诊断
-- 🧪 **化学 (Chemistry)**: 微观-宏观-符号三重表征、化学实验方案设计
+- 🧪 **化学 (Chemistry)**: 微观-宏观-符号三重表征、化学实验探究
 - 🧬 **生物 (Biology)**: 生命观念建构、科学探究与实验设计
 - 📖 **语文 (Chinese)**: 任务群学习、群文阅读、情境化写作设计
 - 🌍 **英语 (English)**: 主题语境探究、语篇研读、交际任务设计
