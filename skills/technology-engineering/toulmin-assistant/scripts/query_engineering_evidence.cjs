@@ -23,6 +23,9 @@ const { promisify } = require('util');
 
 const execFileP = promisify(execFile);
 
+// KB 注册表由 scripts/shared/kb-registry.cjs 提供，避免在本脚本中硬编码 KB ID
+const { loadKbRegistry, buildKbConfig } = require('../../../../scripts/shared/kb-registry.cjs');
+
 // ---------------------------------------------------------------------------
 // IMA API 解析
 // ---------------------------------------------------------------------------
@@ -45,20 +48,18 @@ const imaApi = findImaApi();
 
 // ---------------------------------------------------------------------------
 // 知识库注册（localDir 默认 null，避免写死本地路径）
+//   加载优先级详见 scripts/shared/kb-registry.cjs：
+//   1. env var (TOULMIN_*_KB_ID / TOULMIN_*_LOCAL_DIR)
+//   2. KB_REGISTRY_PATH 指向的自定义注册表
+//   3. examples/kb.registry.json 仓库默认
+//   4. 硬编码 fallback（仅在极端场景，并 stderr 警告）
 // ---------------------------------------------------------------------------
 
-const KB_CONFIG = {
-  gt: {
-    id: process.env.TOULMIN_GT_KB_ID || 'aBIURnoKHvpe9zw092V88KWkftpOGhEe14ItcK34tv0=',
-    name: '技术与工程教学',
-    localDir: process.env.TOULMIN_GT_LOCAL_DIR || null
-  },
-  it: {
-    id: process.env.TOULMIN_IT_KB_ID || '72iYesay6_NLFYUHRxi9lJXDGu36pBH60gn259_PmyQ=',
-    name: '信息科技教学',
-    localDir: process.env.TOULMIN_IT_LOCAL_DIR || null
-  }
-};
+const _registry = loadKbRegistry({ warnOnFallback: true });
+const KB_CONFIG = buildKbConfig(_registry, {
+  gt: { idEnv: 'TOULMIN_GT_KB_ID', localDirEnv: 'TOULMIN_GT_LOCAL_DIR' },
+  it: { idEnv: 'TOULMIN_IT_KB_ID', localDirEnv: 'TOULMIN_IT_LOCAL_DIR' }
+});
 
 // ---------------------------------------------------------------------------
 // 学科关键词词典
@@ -360,5 +361,6 @@ module.exports = {
   searchLocalTextbooks,
   extractSnippetFromPdf,
   runWithConcurrency,
-  KB_CONFIG
+  KB_CONFIG,
+  __registry: _registry
 };

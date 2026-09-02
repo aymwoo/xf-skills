@@ -5,6 +5,33 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.3.2] - 2026-09-02
+
+### Changed
+- **KB 注册迁出 SKILL.md / 脚本正文，统一到 `examples/kb.registry.json` 资源文件**：
+  - 新增集中注册表文件 `examples/kb.registry.json`，含 `gt`（技术与工程教学，59 册）与 `it`（信息科技教学）两个知识库的结构化元数据（ID、名称、描述、教材数量、出版社、覆写策略）。
+  - 新增共享加载器 `scripts/shared/kb-registry.cjs`，提供 `loadKbRegistry()` / `buildKbConfig()` / `validateRegistryShape()`，供所有 Skill 脚本统一调用。
+  - 重构 `search_gt_resource.cjs` / `query_engineering_evidence.cjs`：KB ID 不再在本脚本内置，默认从 `examples/kb.registry.json` 加载；fallback 仅作为「所有文件都不可用」的极端场景兑底，且 `stderr` 警告。
+  - 更新两个 Skill 的 `SKILL.md` §3/§5 章节：将硬编码的 KB ID 改为引用 `examples/kb.registry.json` 相对路径，附带 `KB_REGISTRY_PATH` 环境变量覆写说明。
+  - 重写 `examples/.env.example`：KB ID 默认值不再在此重复列出，全部以注释提示「请使用 `kb.registry.json` 作为单一权威」；新增 `KB_REGISTRY_PATH` 覆写示例。
+
+### Added
+- **14 个 kb-registry 集成测试**（`tests/technology-engineering/kb-registry.test.js`）：
+  - 默认注册表文件存在性 / 包含 gt+it 两个 key / ID 与历史 IMA 默认一致。
+  - `getDefaultRegistryPath()` 返回规范路径。
+  - `loadKbRegistry()` 接受 `options.registryPath` 自定义路径覆写。
+  - `loadKbRegistry()` 接受 `KB_REGISTRY_PATH` 环境变量覆写。
+  - `loadKbRegistry()` 在所有候选都不可用时退回 fallback。
+  - `validateRegistryShape()` 拒绝 null / 缺 `knowledge_bases` / 缺 ID / 缺 name 四类畸形输入。
+  - `buildKbConfig()` 正确应用 env var 覆写。
+  - woodpecker / toulmin 脚本层的 `__registry` 与注册表源路径交叉验证。
+  - **反向检测**：递归扫描 `skills/` 与 `scripts/shared/`（排除 `kb-registry.cjs` 本体），断言不出现裸 KB ID（防止新增 Skill 重复踩坑）。
+  - 两个 SKILL.md 都引用 `kb.registry.json` 且不含裸 KB ID。
+
+### Tests
+- `npm test` 用例数从 25 扩充至 **39**（净增 14）。
+- `npm run validate`：全部 20 个 Skill + 2 个 Pack + 6 个 Template + 19 个 Knowledge 模块依旧全量通过静态验证。
+
 ## [0.3.1] - 2026-09-02
 
 ### Security

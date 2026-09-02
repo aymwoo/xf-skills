@@ -145,8 +145,12 @@ node skills/technology-engineering/woodpecker-auditor/scripts/search_gt_resource
   --query "<知识点关键词，如：闭环控制/榫卯连接/结构强度>" \
   --extract
 ```
-- **核心知识库**：【技术与工程教学】知识库（默认 ID `aBIURnoKHvpe9zw092V88KWkftpOGhEe14ItcK34tv0=`，可通过 `WOODPECKER_GT_KB_ID` 环境变量覆盖），覆盖 59 本官方教材（人教、地质社、粤教粤科、苏教、豫科）。
-- **辅助知识库**：【信息科技教学】知识库（默认 ID `72iYesay6_NLFYUHRxi9lJXDGu36pBH60gn259_PmyQ=`，可通过 `WOODPECKER_IT_KB_ID` 环境变量覆盖）。
+- **核心知识库**：【技术与工程教学】知识库。**KB ID 不在本文件硬编码**，统一在仓库根 [`examples/kb.registry.json`](../../../../examples/kb.registry.json) 注册表中维护，覆盖 59 本官方教材（人教、地质社、粤教粤科、苏教、豫科）。
+- **辅助知识库**：【信息科技教学】知识库。同样从 [`examples/kb.registry.json`](../../../../examples/kb.registry.json) 加载。
+- **覆写路径**（无需修改本文件）：
+  - `WOODPECKER_GT_KB_ID` / `WOODPECKER_IT_KB_ID` 环境变量可临时覆盖单个 KB ID。
+  - `KB_REGISTRY_PATH` 环境变量可指向自定义注册表文件（如校本私有 RAG）。
+  - `WOODPECKER_GT_LOCAL_DIR` / `WOODPECKER_IT_LOCAL_DIR` 可启用本地 PDF 兑底检索（缺省为 null）。
 - **本地教材 PDF 兑底（可选）**：默认**不读任何本地目录**。仅当设置了 `WOODPECKER_GT_LOCAL_DIR` / `WOODPECKER_IT_LOCAL_DIR` 且指向真实路径时，才会在 IMA 云端无命中或传 `--extract` 时扫插本地 PDF。**严禁写死 `/home/...` 绝对路径**。
 - **提取要点**：提取各版本教材中的标准物理指标、实验容差、元器件参数、冲突权衡点作为追问教师的"实证弹药"。
 

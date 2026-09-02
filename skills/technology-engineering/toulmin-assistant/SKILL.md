@@ -142,8 +142,12 @@ node skills/technology-engineering/toulmin-assistant/scripts/query_engineering_e
   --topic "<工程挑战关键词，如：纸梁弯曲/闭环温控/榫卯松脱>" \
   --stage <claim|data|warrant|rebuttal>
 ```
-- **知识库来源**：【技术与工程教学】知识库（默认 ID `aBIURnoKHvpe9zw092V88KWkftpOGhEe14ItcK34tv0=`，可通过 `TOULMIN_GT_KB_ID` 环境变量覆盖），覆盖 59 册官方教材。
-- **本地教材 PDF 兑底（可选）**：默认**不读任何本地目录**。仅当设置了 `TOULMIN_GT_LOCAL_DIR` 且指向真实路径时，才会启用本地 PDF 检索。**严禁写死 `/home/...` 绝对路径**。
+- **知识库来源**：【技术与工程教学】知识库（覆盖 59 册官方教材）。**KB ID 不在本文件硬编码**，统一在仓库根 [`examples/kb.registry.json`](../../../../examples/kb.registry.json) 注册表中维护。
+- **覆写路径**（无需修改本文件）：
+  - `TOULMIN_GT_KB_ID` / `TOULMIN_IT_KB_ID` 环境变量可临时覆盖单个 KB ID。
+  - `KB_REGISTRY_PATH` 环境变量可指向自定义注册表文件（如校本私有 RAG）。
+  - `TOULMIN_GT_LOCAL_DIR` / `TOULMIN_IT_LOCAL_DIR` 可启用本地 PDF 兑底检索。
+- **本地教材 PDF 兑底（可选）**：默认**不读任何本地目录**。仅当设置了上述 LOCAL_DIR 变量且指向真实路径时，才会启用本地 PDF 检索。**严禁写死 `/home/...` 绝对路径**。
 - **赋能方式**：
   - 阶段二：调取教材中该试验的标准测定工具（如游标卡尺、拉力计）及规范量纲；
   - 阶段四：调取教材真实的参数博弈案例（如地质社版必修2“强度-重量效能比公式” $\eta = \frac{F_{\max}}{G}$），精准抛出反驳条件。

@@ -1,0 +1,46 @@
+{
+  "$schema": "./kb.registry.schema.json",
+  "version": "1.0.0",
+  "updated": "2026-09-02",
+  "description": "高中技术与工程 / 信息科技 Skill 共享的 IMA 知识库注册表。本文件是 KB ID 的唯一权威来源（single source of truth）；脚本/SKILL.md 不得再硬编码 ID。",
+  "maintainer": "Teaching Skills Framework Contributors",
+  "knowledge_bases": {
+    "gt": {
+      "id": "aBIURnoKHvpe9zw092V88KWkftpOGhEe14ItcK34tv0=",
+      "name": "技术与工程教学",
+      "description": "覆盖高中通用技术（技术与工程）四大领域：结构与设计、流程与设计、系统与设计、控制与设计。",
+      "textbook_count": 59,
+      "publishers": [
+        "人教版",
+        "地质社版",
+        "粤教粤科版",
+        "苏教版",
+        "豫科版"
+      ],
+      "default_local_dir_env": null,
+      "kb_id_env": null
+    },
+    "it": {
+      "id": "72iYesay6_NLFYUHRxi9lJXDGu36pBH60gn259_PmyQ=",
+      "name": "信息科技教学",
+      "description": "覆盖高中信息科技（信息技术）必修与选择性必修模块，含编程、数据、AI、计算思维等子领域。",
+      "textbook_count": null,
+      "publishers": [],
+      "default_local_dir_env": null,
+      "kb_id_env": null
+    }
+  },
+  "resolution_rules": {
+    "priority_order": [
+      "1. 进程环境变量（WOODPECKER_*_KB_ID / TOULMIN_*_KB_ID / KB_REGISTRY_PATH 等）",
+      "2. KB_REGISTRY_PATH 环境变量指向的自定义注册表文件",
+      "3. examples/kb.registry.json 仓库内默认注册表",
+      "4. 脚本内硬编码 fallback ID（仅当以上三层均不可用时启用，并发出 stderr 警告）"
+    ],
+    "notes": [
+      "当使用自定义知识库时，只需在 .env 中覆盖 KB ID，无需修改 SKILL.md 或脚本。",
+      "新增知识库时，在本文件 knowledge_bases 下追加键值对即可，无需触及 Skill 目录。",
+      "严禁在 Skill 脚本、SKILL.md、README.md 中再次出现裸 KB ID；本文件为唯一权威。"
+    ]
+  }
+}
