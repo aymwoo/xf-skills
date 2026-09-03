@@ -8,7 +8,7 @@
 
 <p align="center">
   <a href="LICENSE"><img src="https://img.shields.io/badge/license-MIT-blue.svg" alt="License"></a>
-  <a href="package.json"><img src="https://img.shields.io/badge/version-0.1.0-green.svg" alt="Version"></a>
+  <a href="package.json"><img src="https://img.shields.io/badge/version-0.6.1-green.svg" alt="Version"></a>
   <a href="docs/specifications/skill-spec.md"><img src="https://img.shields.io/badge/spec-v1.0-orange.svg" alt="Spec"></a>
   <a href="docs/architecture/overview.md"><img src="https://img.shields.io/badge/status-active-brightgreen.svg" alt="Status"></a>
 </p>
@@ -40,7 +40,7 @@ Teaching Framework
   ├── 🎯 Skill (教学能力)        -> "做什么"：如通用教学设计、编程教学、工程设计
   ├── 📚 Knowledge (教学知识)    -> "知道什么"：如课程标准、学科概念、教学策略、常见误区
   ├── 📝 Template (输出模板)     -> "输出成什么"：如教学设计、任务单、评价量规、逐字稿
-  ├── 📦 Pack (能力组合包)       -> "如何组装"：如高中信息科技教学包、高中技术与工程教学包
+  ├── 📦 Pack (能力组合包)       -> "如何组装"：如高中信息科技教学包、高中技术与工程教学包、高中物理数字化实验探究包
   ├── 💡 Example (应用案例)      -> "如何运转"：输入 → Skill → Knowledge → 输出
   └── ⚙️ Runtime (执行环境)      -> "运行机制"：解析、依赖注入、提示管道、生成与校验
 ```
@@ -139,7 +139,8 @@ teaching-skills/
 │
 ├── packs/                         # 📦 学科能力组合包
 │   ├── information-technology/    # 高中信息科技学科包
-│   └── technology-engineering/    # 高中技术与工程学科包
+│   ├── technology-engineering/    # 高中技术与工程学科包
+│   └── physics/                   # 高中物理数字化实验探究学科包
 │
 ├── examples/                      # 💡 真实教学案例
 ├── tests/                         # 🧪 静态校验与单元测试

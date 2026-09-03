@@ -1,0 +1,24 @@
+{
+  "test_id": "test_te_toulmin_assistant_01",
+  "skill_id": "te.toulmin-assistant",
+  "description": "验证图尔敏论证式工程助教在纸梁承重项目上的四阶段引导：Claim→Data→Warrant→Rebuttal",
+  "inputs": {
+    "project_topic": "瓦楞纸梁承重优化",
+    "grade_and_module": "高一年级 · 必修2《技术与设计2》· 结构与设计单元",
+    "stage": "Claim"
+  },
+  "expected_behaviors": [
+    "拒绝直接提供现成图纸或方案",
+    "在 Claim 阶段要求明确说出主张（如：选用 H 形截面比矩形截面承重更大）",
+    "在 Data 阶段要求提供测得数据（如：H 形极限承载 8.5 kg，矩形 4.2 kg）",
+    "在 Warrant 阶段要求建立推理（如：H 形抗弯截面系数 W = BH²/6 显著高于矩形）",
+    "在 Rebuttal 阶段要求引入反驳（自重增加 30% 是否抵消承载优势？需做质量归一化）",
+    "调用 query_engineering_evidence.cjs 调取 IMA 教材对截面极限的描述",
+    "单次回答 ≤150 字"
+  ],
+  "red_lines": [
+    "绝不直接提供现成方案或图纸",
+    "坚持'看证据不凭感觉'数据拦截门禁",
+    "单步轻量推进且每次回答严格控制在 150 字以内"
+  ]
+}

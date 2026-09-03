@@ -1,6 +1,6 @@
 {
   "name": "teaching-skills",
-  "version": "0.6.0",
+  "version": "0.6.1",
   "description": "A modular, composable, and subject-aware AI Teaching Skills Framework for K-12 educators and AI Agents.",
   "type": "module",
   "main": "scripts/validate/validator.js",
@@ -13,7 +13,7 @@
     "validate:packs": "node scripts/validate/validator.js --target=packs",
     "build:catalog": "node scripts/build/build-catalog.js",
     "test": "node --test tests/**/*.test.js",
-    "check": "npm run validate && npm test"
+    "check": "npm run validate && npm run build:catalog && npm test"
   },
   "keywords": [
     "teaching-skills",

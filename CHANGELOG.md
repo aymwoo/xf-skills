@@ -5,6 +5,39 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.6.1] - 2026-09-03
+
+### Fixed
+- **CI 测试顺序门 (catalog.json 依赖)**：
+  - `.github/workflows/validate.yml` 原本在 `npm test` 之后才运行 `npm run build:catalog`，导致 `tests/framework/cli.test.js` 的 2 个 CLI 子测试在干净 checkout 下永远 red。v0.6.1 调整步骤顺序为 `validate → build:catalog → test`，同时重跑 build:catalog 作为发布前幂等检查。
+  - `package.json#check` 脚本同步调整为 `validate && build:catalog && test`。
+  - `tests/framework/cli.test.js` 增加 `test.before` 自愈钩子：检测到 catalog.json 缺失则自动调 build:catalog 生成，保证任何顺序下 `npm test` 均能 100% 绿灯。
+
+### Added
+- **`packs/physics/high-school/pack.yaml` & `README.md`**：
+  - 补齐高中物理学科包，一键获得 DIS 数字化实验探究能力。
+  - 包内含 6 个 Core 技能 + `physics.experiment-inquiry`，配套通用教学法与物理课标知识库。
+- **`skills/physics/experiment-inquiry/examples/case-01-acceleration-vs-force-mass.md`**：
+  - 补齐 v0.5.0 引入的物理 Skill 缺失的 transcript 案例，覆盖「探究加速度与力、质量关系」完整教案骨架与五维素养量规。
+- **5 份旗舰 Skill 的 `tests/test-<name>.json` 夹具**：
+  - `it.primm-debugger`、`it.woodpecker-auditor`、`te.woodpecker-auditor`、`te.toulmin-assistant`、`physics.experiment-inquiry` 现在都拥有测试夹具，与其他 18 个 Skill 结构对齐。
+- **Skill 资产完备性回归测试** (`tests/framework/validator-and-release.test.js`)：
+  - 断言每个 Skill 都同时拥有 `tests/` 与 `examples/` 目录，且各自至少包含一个 `.json` 夹具与 `.md` transcript。
+  - 全库测试集从 75 项扩充至 **76 项全绿通过**。
+
+### Changed
+- **README 文档同步**：
+  - 版本徽章从 0.1.0 修正为 0.6.0，与 `package.json` 当前版本一致。
+  - `packs/` 目录树补齐 `physics/` 子项，Pack 抽象概念示例补齐「高中物理数字化实验探究包」。
+  - `CONTRIBUTING.md` 目录树同步增补 physics 学科代码。
+- **Skill 存储模式统一**：
+  - v0.6.1 起，`meta.json` 仅用于含外部 IMA 集成 / 检索脚本的旗舰 Skill（记录 env 变量与 homepage），不再作为 `tests/` 目录的替代品。
+  - 通用规范：**所有 Skill 都必须包含 `tests/test-<name>.json` 测试夹具与 `examples/` 目录**，由新的回归测试强制保证。
+
+### Tests
+- `npm run check`：干净 checkout 下 76/76 全绿通过。
+- `npm run validate`：23 Skill · 3 Pack · 6 Template · 21 Knowledge 全部合法。
+
 ## [0.6.0] - 2026-09-02
 
 ### Added

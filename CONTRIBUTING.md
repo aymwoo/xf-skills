@@ -42,10 +42,10 @@
 teaching-skills/
 ├── .github/          # GitHub 工作流、Issue/PR 模板
 ├── docs/             # 框架架构文档、规范与开发教程
-├── skills/           # 技能定义目录 (core, information-technology, technology-engineering)
-├── knowledge/        # 学科与通用知识库 (common, information-technology, ...)
+├── skills/           # 技能定义目录 (core, information-technology, technology-engineering, physics)
+├── knowledge/        # 学科与通用知识库 (common, information-technology, technology-engineering, physics)
 ├── templates/        # 标准化教学输出模板
-├── packs/            # 学科/学段组合包定义
+├── packs/            # 学科/学段组合包定义 (information-technology, technology-engineering, physics)
 ├── examples/         # 真实教学案例与端到端示例
 ├── tests/            # 自动化测试与验证用例
 └── scripts/          # 构建、校验与发布脚本

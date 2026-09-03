@@ -56,3 +56,35 @@ test('framework: scripts/build/build-catalog.js and bin/xf-skills.cjs exist', ()
   const cliPath = path.join(ROOT_DIR, 'bin/xf-skills.cjs');
   assert.ok(fs.existsSync(cliPath), 'bin/xf-skills.cjs must exist');
 });
+
+// 回归门：保证任何新增的 Skill 都不会丢失 tests/ 与 examples/ 两类资产。
+// v0.6.1 起作为 CI 必要门棁，防止未来 PR 隐含退化。
+test('framework: every skill must have both tests/ and examples/ directories', () => {
+  const skillsDir = path.join(ROOT_DIR, 'skills');
+  const skillDirs = fs.readdirSync(skillsDir, { withFileTypes: true })
+    .filter(e => e.isDirectory())
+    .flatMap(parent =>
+      fs.readdirSync(path.join(skillsDir, parent.name), { withFileTypes: true })
+        .filter(e => e.isDirectory())
+        .map(e => path.join(skillsDir, parent.name, e.name))
+    );
+
+  assert.ok(skillDirs.length >= 23, `Expected at least 23 skills, found ${skillDirs.length}`);
+
+  for (const dir of skillDirs) {
+    const skillName = path.basename(dir);
+    const testsDir = path.join(dir, 'tests');
+    const examplesDir = path.join(dir, 'examples');
+
+    assert.ok(fs.existsSync(testsDir), `${skillName} must have tests/ directory`);
+    assert.ok(fs.existsSync(examplesDir), `${skillName} must have examples/ directory`);
+
+    const testFiles = fs.readdirSync(testsDir).filter(f => f.endsWith('.json'));
+    assert.ok(testFiles.length > 0,
+      `${skillName} tests/ must have at least one .json fixture (got: ${JSON.stringify(testFiles)})`);
+
+    const exampleFiles = fs.readdirSync(examplesDir).filter(f => f.endsWith('.md'));
+    assert.ok(exampleFiles.length > 0,
+      `${skillName} examples/ must have at least one .md transcript (got: ${JSON.stringify(exampleFiles)})`);
+  }
+});

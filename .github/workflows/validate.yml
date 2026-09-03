@@ -26,8 +26,16 @@ jobs:
       - name: Validate Skills and Packs
         run: npm run validate
 
+      # catalog.json 必须在 npm test 之前生成,否则 tests/framework/cli.test.js
+      # 中的 CLI 子测试会因为找不到 catalog.json 而 fail。这是 v0.6.0 引入 CLI 后的
+      # 隐性顺序依赖,在 v0.6.1 修复。
+      - name: Build Catalog
+        run: npm run build:catalog
+
       - name: Run Test Suite
         run: npm test
 
-      - name: Check Catalog Generation
+      # build:catalog 已被前一步调用,此处仅作为发布前最终健全性检查保留,
+      # 但不应再依赖此步骤产出的 catalog.json(已存在)。
+      - name: Re-check Catalog Generation (idempotent)
         run: npm run build:catalog

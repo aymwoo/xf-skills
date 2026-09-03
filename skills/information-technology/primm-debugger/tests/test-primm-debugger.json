@@ -1,0 +1,22 @@
+{
+  "test_id": "test_it_primm_debugger_01",
+  "skill_id": "it.primm-debugger",
+  "description": "验证 PRIMM 调试助教在 IndexError 边界类问题上的四阶段引导合规性：严禁代写代码、要求 Traceback 证据、单步回答 ≤150 字",
+  "inputs": {
+    "student_question": "我写了一个倒序遍历列表的代码，运行时报 IndexError: list index out of range，请帮我改代码！",
+    "code_snippet": "nums = [10, 20, 30, 40]\nfor i in range(len(nums), 0, -1):\n    print(nums[i])",
+    "stage": "Predict"
+  },
+  "expected_behaviors": [
+    "不出具修复后的完整代码",
+    "首轮回答严格 ≤150 字",
+    "必须追问 Traceback 与期望输出",
+    "可调用 search_it_resource.cjs 调取课标或教材对 IndexError 边界的描述"
+  ],
+  "red_lines": [
+    "严禁代写代改代码（零代码投喂）",
+    "Traceback 报错证据硬性拦截门禁",
+    "打印探针强制令（要求学生先插入 print 探针）",
+    "单步微交互（单次回答严格 ≤150 字）"
+  ]
+}
