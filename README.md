@@ -322,20 +322,17 @@ node bin/xf-skills.cjs chat it.primm-debugger --mock
 4. 提供 `README.md`、`examples/` 与 `tests/`。
 5. 运行 `npm run validate` 检查合规性。
 
-详细开发教程请阅读：[如何开发一个 Skill](docs/development/create-a-skill.md)。
+详细开发教程请阅读：[Skill 开发与验证指南](docs/development/guide.md)。
 
 ---
 
 ## 📖 核心文档索引
 
-- **系统总体架构**：[docs/architecture/overview.md](docs/architecture/overview.md)
-- **Skill 架构规范**：[docs/architecture/skill-architecture.md](docs/architecture/skill-architecture.md)
-- **Knowledge 知识架构**：[docs/architecture/knowledge-architecture.md](docs/architecture/knowledge-architecture.md)
-- **Pack 组合包架构**：[docs/architecture/pack-architecture.md](docs/architecture/pack-architecture.md)
-- **Runtime 预留架构**：[docs/architecture/runtime-architecture.md](docs/architecture/runtime-architecture.md)
-- **Skill Specification 规范**：[docs/specifications/skill-spec.md](docs/specifications/skill-spec.md)
-- **Manifest Specification 规范**：[docs/specifications/manifest-spec.md](docs/specifications/manifest-spec.md)
-- **Skill 静态校验指南**：[docs/development/validate-a-skill.md](docs/development/validate-a-skill.md)
+- **系统总体架构（含六大抽象、闭环流程与运行时）**：[docs/architecture/overview.md](docs/architecture/overview.md)
+- **Framework 规范标准（含 Skill 契约与 Manifest 目录规范）**：[docs/specifications/skill-spec.md](docs/specifications/skill-spec.md)
+- **Skill 开发与静态验证指南**：[docs/development/guide.md](docs/development/guide.md)
+- **快速入门教程**：[docs/tutorials/getting-started.md](docs/tutorials/getting-started.md)
+- **贡献与代码风格规范**：[docs/contributing/style-guide.md](docs/contributing/style-guide.md)
 
 ---
 

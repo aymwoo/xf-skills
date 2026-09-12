@@ -1,6 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import path from 'node:path';
+import fs from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import { FrameworkValidator } from '../../scripts/validate/validator.js';
 
@@ -21,4 +22,20 @@ test('Packs Suite: All packs must resolve cleanly without missing dependencies',
 
   const tePack = validator.packs.get('pack.te.high-school');
   assert.ok(tePack.skills.length >= 6, 'TE pack should contain at least 6 skills');
+});
+
+test('te pack: pack.yaml must include te.woodpecker-auditor and te.toulmin-assistant', () => {
+  const packPath = path.join(
+    ROOT_DIR,
+    'packs/technology-engineering/high-school/pack.yaml'
+  );
+  const raw = fs.readFileSync(packPath, 'utf8');
+  assert.ok(
+    raw.includes('te.woodpecker-auditor'),
+    'pack.yaml should reference te.woodpecker-auditor'
+  );
+  assert.ok(
+    raw.includes('te.toulmin-assistant'),
+    'pack.yaml should reference te.toulmin-assistant'
+  );
 });

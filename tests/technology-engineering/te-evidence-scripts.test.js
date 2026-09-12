@@ -7,11 +7,12 @@ import { fileURLToPath } from 'node:url';
 
 const require = createRequire(import.meta.url);
 const searchScript = require('../../skills/technology-engineering/woodpecker-auditor/scripts/search_gt_resource.cjs');
+const toulminScript = require('../../skills/technology-engineering/toulmin-assistant/scripts/query_engineering_evidence.cjs');
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
-// ---------------------------------------------------------------------------
-// 既有用例：纯函数与默认 KB 注册
-// ---------------------------------------------------------------------------
+// ===========================================================================
+// search_gt_resource (woodpecker-auditor) 脚本套件
+// ===========================================================================
 
 test('search_gt_resource suite: extractKeywords should extract GT domain terms', () => {
   const query = '分析一下闭环控制系统中的干扰因素与稳定性测定实验';
@@ -57,16 +58,10 @@ test('search_gt_resource suite: KB_CONFIG has valid GT and IT knowledge base map
   assert.equal(searchScript.KB_CONFIG.it.id, '72iYesay6_NLFYUHRxi9lJXDGu36pBH60gn259_PmyQ=');
 });
 
-// ---------------------------------------------------------------------------
-// P0 修复：本地路径不再硬编码
-// ---------------------------------------------------------------------------
-
 test('search_gt_resource suite: KB_CONFIG localDir defaults to null (no hardcoded path)', () => {
-  // 默认情况下不应残留任何本地绝对路径，避免污染其他开发者机器
   assert.equal(searchScript.KB_CONFIG.gt.localDir, null, 'gt.localDir must default to null when WOODPECKER_GT_LOCAL_DIR is unset');
   assert.equal(searchScript.KB_CONFIG.it.localDir, null, 'it.localDir must default to null when WOODPECKER_IT_LOCAL_DIR is unset');
 
-  // 不应在 KB_CONFIG 任意位置出现 /home/、C:\ 等本地绝对路径前缀
   const serialized = JSON.stringify(searchScript.KB_CONFIG);
   assert.ok(!serialized.includes('/home/'), 'KB_CONFIG must not contain /home/ paths');
   assert.ok(!/localDir"\s*:\s*"[^"]*\/[^"]*"/.test(serialized) || !serialized.match(/"\/[^"]+"/g),
@@ -74,22 +69,15 @@ test('search_gt_resource suite: KB_CONFIG localDir defaults to null (no hardcode
 });
 
 test('search_gt_resource suite: searchLocalTextbooks handles null/non-existent dir gracefully', async () => {
-  // null 直接返回空数组
   const nullResult = await searchScript.searchLocalTextbooks(null, '闭环控制');
   assert.deepEqual(nullResult, [], 'null localDir should yield []');
 
-  // 不存在的路径返回空数组，不抛错
   const missingResult = await searchScript.searchLocalTextbooks('/path/that/definitely/does/not/exist/1234567', '闭环控制');
   assert.deepEqual(missingResult, [], 'missing localDir should yield []');
 
-  // 空字符串也返回空数组
   const emptyResult = await searchScript.searchLocalTextbooks('', '闭环控制');
   assert.deepEqual(emptyResult, [], 'empty localDir should yield []');
 });
-
-// ---------------------------------------------------------------------------
-// P2 集成测试：并发限流 + execFile 防注入
-// ---------------------------------------------------------------------------
 
 test('search_gt_resource suite: runWithConcurrency respects concurrency limit', async () => {
   let active = 0;
@@ -97,7 +85,6 @@ test('search_gt_resource suite: runWithConcurrency respects concurrency limit', 
   const tasks = Array.from({ length: 12 }, (_, i) => async () => {
     active++;
     peak = Math.max(peak, active);
-    // 让事件循环切换以暴露真实并发
     await new Promise(r => setTimeout(r, 20));
     active--;
     return i;
@@ -115,15 +102,92 @@ test('search_gt_resource suite: runWithConcurrency handles empty input', async (
 });
 
 test('search_gt_resource suite: extractSnippetFromPdf uses execFile (no shell injection)', () => {
-  // 静态校验：脚本不再使用 child_process.execSync 拼 shell 字符串
   const src = fs.readFileSync(
     path.resolve(__dirname, '../../skills/technology-engineering/woodpecker-auditor/scripts/search_gt_resource.cjs'),
     'utf8'
   );
-  // 不应出现 `pdftotext` 后跟着 grep shell 拼接的模式
-  // （按"grep " 后跟引号或 $ 插值判定为仍可能注入）
   assert.ok(!/`[^`]*pdftotext[^`]*grep/.test(src), 'source must not pipe pdftotext through grep via shell');
   assert.ok(!/execSync\s*\(/.test(src), 'source must not use execSync (avoid shell injection)');
-  // 必须引用 execFile
   assert.ok(/execFile/.test(src), 'source must use execFile for child processes');
+});
+
+// ===========================================================================
+// toulmin_assistant (query_engineering_evidence) 脚本套件
+// ===========================================================================
+
+test('toulmin_assistant suite: extractKeywords should extract GT concepts from project descriptions', () => {
+  const query = '纸梁受弯破坏与跨中挠度实测';
+  const kws = toulminScript.extractKeywords(query);
+
+  assert.ok(Array.isArray(kws), 'Keywords should be an array');
+  assert.ok(kws.includes('纸梁') || kws.includes('弯曲') || kws.includes('破坏'), 'Should extract 纸梁/弯曲/破坏');
+});
+
+test('toulmin_assistant suite: parseArgs parses topic and stage flags correctly', () => {
+  const customArgv = [
+    'node',
+    'query_engineering_evidence.cjs',
+    '--topic',
+    '闭环温控系统',
+    '--stage',
+    'data',
+    '--limit',
+    '3',
+    '--format',
+    'json'
+  ];
+
+  const parsed = toulminScript.parseArgs(customArgv);
+  assert.equal(parsed.topic, '闭环温控系统');
+  assert.equal(parsed.stage, 'data');
+  assert.equal(parsed.limit, 3);
+  assert.equal(parsed.format, 'json');
+});
+
+test('toulmin_assistant suite: KB_CONFIG points to official GT knowledge base', () => {
+  assert.ok(toulminScript.KB_CONFIG.gt, 'GT knowledge base mapping exists');
+  assert.equal(toulminScript.KB_CONFIG.gt.id, 'aBIURnoKHvpe9zw092V88KWkftpOGhEe14ItcK34tv0=');
+});
+
+test('toulmin_assistant suite: KB_CONFIG localDir defaults to null (no hardcoded path)', () => {
+  assert.equal(toulminScript.KB_CONFIG.gt.localDir, null, 'gt.localDir must default to null when TOULMIN_GT_LOCAL_DIR is unset');
+  assert.equal(toulminScript.KB_CONFIG.it.localDir, null, 'it.localDir must default to null when TOULMIN_IT_LOCAL_DIR is unset');
+
+  const serialized = JSON.stringify(toulminScript.KB_CONFIG);
+  assert.ok(!serialized.includes('/home/'), 'KB_CONFIG must not contain /home/ paths');
+});
+
+test('toulmin_assistant suite: searchLocalTextbooks handles null/non-existent dir gracefully', async () => {
+  const nullResult = await toulminScript.searchLocalTextbooks(null, '纸梁');
+  assert.deepEqual(nullResult, [], 'null localDir should yield []');
+
+  const missingResult = await toulminScript.searchLocalTextbooks('/path/that/definitely/does/not/exist/1234567', '纸梁');
+  assert.deepEqual(missingResult, [], 'missing localDir should yield []');
+});
+
+test('toulmin_assistant suite: runWithConcurrency respects concurrency limit', async () => {
+  let active = 0;
+  let peak = 0;
+  const tasks = Array.from({ length: 10 }, (_, i) => async () => {
+    active++;
+    peak = Math.max(peak, active);
+    await new Promise(r => setTimeout(r, 15));
+    active--;
+    return i;
+  });
+
+  const results = await toulminScript.runWithConcurrency(tasks, 3, (task) => task());
+  assert.deepEqual(results, Array.from({ length: 10 }, (_, i) => i));
+  assert.ok(peak <= 3, `concurrency must not exceed limit (peak=${peak})`);
+});
+
+test('toulmin_assistant suite: source uses execFile (no shell injection)', () => {
+  const here = path.dirname(fileURLToPath(import.meta.url));
+  const src = fs.readFileSync(
+    path.resolve(here, '../../skills/technology-engineering/toulmin-assistant/scripts/query_engineering_evidence.cjs'),
+    'utf8'
+  );
+  assert.ok(!/grep\s+-/.test(src), 'source must not shell out to grep');
+  assert.ok(!/execSync\s*\(/.test(src), 'source must not use execSync');
+  assert.ok(/execFile/.test(src), 'source must use execFile');
 });

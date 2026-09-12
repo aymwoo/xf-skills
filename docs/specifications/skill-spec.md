@@ -1,19 +1,17 @@
-# Skill Specification (Skill 规范标准)
+# Framework Specifications (规范标准)
 
 版本：`1.0.0`  
-适用范围：`skills/*` 下的所有 `SKILL.md` 文件。
+本文档定义 Teaching Skills Framework 中的 Skill 元规范、目录清单模式 (`catalog.json`) 与组合包清单 (`pack.yaml`) 契约。
 
 ---
 
-## 1. 结构规范
+## 1. Skill 规范标准 (Skill Specification)
 
 每个 Skill 必须包含两个主要组成部分：
 1. **YAML Front Matter**（必须位于文件最开头，以 `---` 包裹）
 2. **Markdown 主体规范内容**（清晰描述目标、边界、输入输出、7 步流程与质量基准）
 
----
-
-## 2. YAML Front Matter 字段定义
+### YAML Front Matter 字段定义
 
 | 字段 | 类型 | 是否必填 | 说明 | 示例 |
 | :--- | :--- | :--- | :--- | :--- |
@@ -33,11 +31,7 @@
 | `outputs` | `array` | 是 | 产物模板名称列表 | `["lesson-plan"]` |
 | `tags` | `array` | 否 | 检索标签 | `["programming", "python"]` |
 
----
-
-## 3. Markdown 正文标准章节
-
-正文必须包含以下二级标题结构：
+### Markdown 正文标准章节
 
 ```markdown
 # [中文显示名称] ([英文名称])
@@ -68,4 +62,64 @@
 
 ## 6. 关联资源与产物 (Dependencies & Outputs)
 说明调用的知识文件与输出模板。
+```
+
+---
+
+## 2. Pack 清单规范 (`pack.yaml`)
+
+每个组合包必须包含根目录下的 `pack.yaml`，其字段定义如下：
+
+```yaml
+id: pack.<subject-short>.<level>   # 例如 pack.it.high-school
+name: string                      # 短横线命名
+display_name: string              # 中文名称
+version: string                   # 语义化版本号
+description: string               # 组合包描述
+subject: string[]                 # 关联学科
+education_level: string[]         # 适用学段
+skills: string[]                  # 包含的所有 Skill ID 列表
+knowledge: string[]               # 包含的所有 Knowledge 路径/标识
+templates: string[]               # 包含的所有 Template 标识
+```
+
+---
+
+## 3. 集中式目录清单 (`catalog.json`) 模式
+
+通过运行 `npm run build:catalog` 自动聚合整个框架的所有资源，输出格式如下：
+
+```json
+{
+  "version": "0.8.0",
+  "generated_at": "2026-09-12T00:00:00.000Z",
+  "skills_count": 24,
+  "packs_count": 3,
+  "skills": [
+    {
+      "id": "it.programming",
+      "name": "programming",
+      "display_name": "编程教学设计",
+      "version": "0.1.0",
+      "path": "skills/information-technology/programming/SKILL.md",
+      "subject": ["information-technology"],
+      "education_level": ["high-school"],
+      "depends_on": ["core.lesson-design", "core.activity-design"],
+      "outputs": ["lesson-plan", "task-sheet"]
+    }
+  ],
+  "packs": [
+    {
+      "id": "pack.it.high-school",
+      "name": "high-school-information-technology",
+      "path": "packs/information-technology/high-school/pack.yaml"
+    }
+  ],
+  "templates": ["lesson-plan", "task-sheet", "assessment", "teaching-script", "project", "presentation"],
+  "knowledge_modules": [
+    "common.pedagogy.bloom-taxonomy",
+    "information-technology.curriculum",
+    "technology-engineering.curriculum"
+  ]
+}
 ```

@@ -5,6 +5,15 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.8.1] - 2026-09-12
+
+### Changed
+- **精简全仓库文件总数至 200 限制以内（适配 SkillHub.cn 发布）**:
+  - 全仓库 Git 追踪文件数从 **208** 优化精简至 **189**（安全留存 11 个文件裕量），彻底满足 SkillHub 导入时 `最多 200 个文件` 与 `10 MiB` 的限制。
+  - **文档结构集约化**：将 `docs/architecture/` 下的 4 个子架构文档统一归并至 `overview.md`；将 `create-a-skill.md` 与 `validate-a-skill.md` 合并为 `guide.md`；将 `manifest-spec.md` 归并至 `skill-spec.md`。
+  - **示例工程聚合**：将信息技术与通用技术示例目录由分立文件（context/input/output）整合为内聚的 Markdown 对照案例（`example.md`）。
+  - **测试夹具与用例同类归并**：清理孤立无用测试夹具，将 `it-woodpecker`/`primm-debugger` 与 `te-packs`/`search-gt-resource` 分别归并至各自学科测试模块，维持 100% 教学资产与 **77 项测试全绿通过**。
+
 ## [0.8.0] - 2026-09-12
 
 ### Added
