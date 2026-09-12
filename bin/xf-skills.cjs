@@ -49,10 +49,10 @@ function printHelp() {
   list, ls                 列出框架内全量教学技能资产 (按学科归类)
   search <query>           根据关键词/标签/触发词搜索技能
   info <skill-id>          查阅指定技能的完整规约、依赖与认知红线
-  chat <skill-id> [--mock] 启动终端交互式苏格拉底追问模拟体验
-  kb <query> [--provider]  跨适配器检索在线/离线知识库 (IMA/Dify/Local)
-  export <skill-id> [--out] 打包导出自包含独立技能 (解耦依赖可单独安装)
+  chat <skill-id> [--mock] 启动苏格拉底微追问交互模拟
+  kb <query> [--provider=] 检索学科教材与课标知识库
   validate                 运行框架静态规范校验器
+  export <id> [--out <dir>] [--zip] 导出自包含独立技能目录与 SkillHub 上传 Zip 包
   version, -v              查看当前框架版本号
   help, -h                 查看此帮助信息
 
@@ -283,7 +283,7 @@ function parseFrontmatterRequires(content) {
   return { templates, knowledge };
 }
 
-function handleExport(skillId, outDir) {
+function handleExport(skillId, outDir, wantZip = false) {
   if (!skillId) {
     console.error('❌ 请指定要导出的技能 ID，如: xf-skills export it.woodpecker-auditor');
     process.exit(1);
@@ -314,9 +314,9 @@ function handleExport(skillId, outDir) {
   copyDirSync(skillDir, destDir);
   console.log(`  ✓ 复制技能骨架至: ${destDir}`);
 
-  // 2. 检查 scripts 兄弟依赖（如 it.woodpecker-auditor 特殊处理）
-  const scriptsDir = path.join(destDir, 'scripts');
+  // 2. 特殊处理: 如果是 it.woodpecker-auditor，内联 primm-debugger 的检索脚本
   if (skill.id === 'it.woodpecker-auditor') {
+    const scriptsDir = path.join(destDir, 'scripts');
     const primmScript = path.join(ROOT_DIR, 'skills/information-technology/primm-debugger/scripts/search_it_resource.cjs');
     if (fs.existsSync(primmScript)) {
       fs.mkdirSync(scriptsDir, { recursive: true });
@@ -379,10 +379,23 @@ function handleExport(skillId, outDir) {
   fs.writeFileSync(skillMdPath, normalizedMd, 'utf8');
   console.log('  ✓ 规范化 SKILL.md 脚本执行语法为独立工作区相对路径 (node ./scripts/...)');
 
+  let zipNotice = '';
+  if (wantZip) {
+    const zipPath = `${destDir}.zip`;
+    try {
+      const { execFileSync } = require('child_process');
+      execFileSync('zip', ['-rq', zipPath, '.'], { cwd: destDir });
+      console.log(`  ✓ 自动压缩打包为 SkillHub / ZIP 上传包: \x1b[32m${zipPath}\x1b[0m`);
+      zipNotice = `\n   • SkillHub.cn 发布包 (已压缩):
+     \x1b[36m${zipPath}\x1b[0m (直接在 skillhub.cn 上传此 Zip 即可)\n`;
+    } catch (e) {
+      console.warn('  ⚠️ 自动创建 zip 失败，可通过手动压缩该目录上传。');
+    }
+  }
+
   console.log(`
 🎉 导出成功！自包含技能位于:
-   \x1b[32m${destDir}\x1b[0m
-
+   \x1b[32m${destDir}\x1b[0m${zipNotice}
 📌 单独安装指引:
    • 安装到全局 (~/.gemini/config/skills/):
      cp -r "${destDir}" ~/.gemini/config/skills/${skill.name}
@@ -472,14 +485,17 @@ function main() {
   if (cmd === 'export') {
     const skillId = args[1];
     let outDir = null;
+    let wantZip = false;
     for (let i = 2; i < args.length; i++) {
       if (args[i] === '--out' || args[i] === '-o') {
         outDir = args[++i];
       } else if (args[i].startsWith('--out=')) {
         outDir = args[i].split('=')[1];
+      } else if (args[i] === '--zip' || args[i] === '-z') {
+        wantZip = true;
       }
     }
-    handleExport(skillId, outDir);
+    handleExport(skillId, outDir, wantZip);
     return;
   }
 
