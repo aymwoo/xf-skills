@@ -7,8 +7,8 @@
 </p>
 
 <p align="center">
-  <a href="LICENSE"><img src="https://img.shields.io/badge/license-MIT-blue.svg" alt="License"></a>
-  <a href="package.json"><img src="https://img.shields.io/badge/version-0.8.0-green.svg" alt="Version"></a>
+  <img src="https://img.shields.io/badge/license-MIT-blue.svg" alt="License">
+  <a href="package.json"><img src="https://img.shields.io/badge/version-0.8.1-green.svg" alt="Version"></a>
   <a href="https://skills.sh/aymwoo/xf-skills"><img src="https://skills.sh/b/aymwoo/xf-skills" alt="skills.sh"></a>
   <a href="docs/specifications/skill-spec.md"><img src="https://img.shields.io/badge/spec-v1.0-orange.svg" alt="Spec"></a>
   <a href="docs/architecture/overview.md"><img src="https://img.shields.io/badge/status-active-brightgreen.svg" alt="Status"></a>
@@ -345,4 +345,4 @@ node bin/xf-skills.cjs chat it.primm-debugger --mock
 
 ## 📄 开源许可证
 
-本项目基于 [MIT License](LICENSE) 协议开源。
+本项目基于 MIT License 协议开源。

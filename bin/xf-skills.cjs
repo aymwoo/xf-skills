@@ -421,7 +421,6 @@ function handleBundle(outZipPath) {
     'SKILL.md',
     'README.md',
     'CHANGELOG.md',
-    'LICENSE',
     'package.json',
     'skills.sh.json',
     'CONTRIBUTING.md',
@@ -438,7 +437,7 @@ function handleBundle(outZipPath) {
 
   console.log('\n📦 正在打包包含全套 24 项技能的 SkillHub / skills.cn 规范 Zip 发布包...\n');
   const { execFileSync } = require('child_process');
-  execFileSync('zip', ['-rq', targetZip, ...includedEntries, '-x', '*.DS_Store', '*__MACOSX*'], { cwd: ROOT_DIR });
+  execFileSync('zip', ['-rq', targetZip, ...includedEntries, '-x', '*.DS_Store', '*__MACOSX*', 'LICENSE', 'license*', '*listen*'], { cwd: ROOT_DIR });
   const sizeKb = (fs.statSync(targetZip).size / 1024).toFixed(1);
 
   console.log(`  ✓ 成功创建全量标准 Zip 包: \x1b[32m${targetZip}\x1b[0m (${sizeKb} KB)`);

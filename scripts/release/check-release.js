@@ -18,7 +18,6 @@ function checkRelease() {
     'README.md',
     'CONTRIBUTING.md',
     'CHANGELOG.md',
-    'LICENSE',
     'package.json',
     '.gitignore',
     '.github/workflows/validate.yml',
