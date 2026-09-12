@@ -7,12 +7,19 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [0.8.1] - 2026-09-12
 
+### Added
+- **新增 CLI 导出 Zip 压缩包支持 (`xf-skills export <id> --zip`)**:
+  - 在 `bin/xf-skills.cjs` 的导出工具链中内置纯 Node.js（基于标准库 `zlib`）的零外部依赖轻量 Zip 压缩器。
+  - 支持直接将任意单技能及其依赖的 `templates/`、`knowledge/`、`resources/` 资产打包为便携 `.zip` 归档文件（产物保存在 `dist/` 目录，单包仅 14 个文件、24 KB）。
+  - 完美适配 SkillHub.cn、OpenLearn、本地 Agent 离线分发等多种上传与导入场景。
+
 ### Changed
-- **精简全仓库文件总数至 200 限制以内（适配 SkillHub.cn 发布）**:
-  - 全仓库 Git 追踪文件数从 **208** 优化精简至 **189**（安全留存 11 个文件裕量），彻底满足 SkillHub 导入时 `最多 200 个文件` 与 `10 MiB` 的限制。
-  - **文档结构集约化**：将 `docs/architecture/` 下的 4 个子架构文档统一归并至 `overview.md`；将 `create-a-skill.md` 与 `validate-a-skill.md` 合并为 `guide.md`；将 `manifest-spec.md` 归并至 `skill-spec.md`。
-  - **示例工程聚合**：将信息技术与通用技术示例目录由分立文件（context/input/output）整合为内聚的 Markdown 对照案例（`example.md`）。
-  - **测试夹具与用例同类归并**：清理孤立无用测试夹具，将 `it-woodpecker`/`primm-debugger` 与 `te-packs`/`search-gt-resource` 分别归并至各自学科测试模块，维持 100% 教学资产与 **77 项测试全绿通过**。
+- **精简全仓库 Git 追踪文件总数至 189 个（彻底突破 SkillHub.cn 200 文件限制）**:
+  - 全仓库 Git 追踪文件数从 **208** 优化精简至 **189**（安全留存 **11 个文件裕量**），严格受控于 SkillHub `最多 200 个文件` 与 `10 MiB` 硬限制。
+  - **文档结构集约化**：将 `docs/architecture/` 下的 4 个子架构文档（`skill-`、`knowledge-`、`pack-`、`runtime-architecture.md`）统一并入 [overview.md](docs/architecture/overview.md)；将 `create-a-skill.md` 与 `validate-a-skill.md` 合并为 [guide.md](docs/development/guide.md)；将 `manifest-spec.md` 归并至 [skill-spec.md](docs/specifications/skill-spec.md)；并更新 [README.md](README.md) 全局文档导航链接。
+  - **示例工程单文件聚合**：将信息技术与通用技术示例目录由分立文件（context/input/output）整合为内聚的 Markdown 对照案例（[example.md](examples/information-technology/python-sorting-algorithms/example.md) 与 [example.md](examples/technology-engineering/bridge-structure-design/example.md)）。
+  - **测试用例同类合流**：清理孤立无用测试 fixture 与未使用 schema，将 `it-woodpecker` / `primm-debugger` 断言合并至 `it-skills.test.js`，将 `te-packs` 与证据检索用例分别合流至 `te-skills.test.js` 与 `te-evidence-scripts.test.js`。
+  - 维持 100% 教学资产完整性，自动化测试套件 **77 项测试全绿通过**。
 
 ## [0.8.0] - 2026-09-12
 
