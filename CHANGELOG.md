@@ -5,6 +5,28 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.7.0] - 2026-09-12
+
+### Added
+- **自包含独立技能导出与打包系统 (`xf-skills export`)**:
+  - `bin/xf-skills.cjs` 新增 `export <skill-id> [--out <dir>]` 命令，彻底解决技能脱离 Monorepo 后的独立安装与离线分发问题。
+  - 自动依据 `SKILL.md` Frontmatter 声明，动态抽取并内联打包关联的 `templates/`（至 `resources/templates/`）与 `knowledge/`（至 `references/knowledge/`）。
+  - 自动将 `scripts/shared/kb-registry.cjs` 与默认 `kb.registry.json` 注入导出的 `resources/` 目录，并在导出的 `SKILL.md` 中自动将执行指引规范化为工作区相对路径 (`node ./scripts/...`)。
+  - 导出 `it.woodpecker-auditor` 时自动内联完整检索器实现，彻底解除对 `primm-debugger` 兄弟技能的横向耦合。
+- **端到端独立运行与打包集成测试** (`tests/framework/cli.test.js`)：
+  - 新增自动化集成测试用例，断言导出的单技能目录在与 Monorepo 彻底隔离的外部工作区（如 `/tmp`）下可独立执行检索并成功输出，全库测试套件扩充至 **77 项全绿通过**。
+
+### Fixed
+- **解除检索脚本向上 4 级越界 `require` 逃逸硬伤**：
+  - 重构 `it.primm-debugger`、`it.woodpecker-auditor`、`te.woodpecker-auditor`、`te.toulmin-assistant` 中的 4 个检索脚本，引入三级容错加载机制（Monorepo 优先 $\to$ 导出的 `resources/` 目录 $\to$ 独立安全 Fallback），杜绝物理复制单技能文件夹时抛出 `MODULE_NOT_FOUND`。
+  - `scripts/shared/kb-registry.cjs` 增加 `colocated` 同目录配置查找支持，自包含安装时零警告静默加载。
+- **修复 `multi-version-teaching-designer` 知识库路径硬编码**：
+  - 移除 `cross_textbook_search.cjs` 与 `save_lesson_plan.cjs` 中写死的开发机绝对路径与用户目录依赖，改用动态 `findImaApi()` 与 `resolveLocalDir()` 环境变量（`TEXTBOOK_IT_LOCAL_DIR` / `TEXTBOOK_GT_LOCAL_DIR`）配置体系。
+
+### Changed
+- `package.json` 版本升级至 `0.7.0`。
+- `README.md` 版本徽章同步更新至 `0.7.0`。
+
 ## [0.6.1] - 2026-09-03
 
 ### Fixed

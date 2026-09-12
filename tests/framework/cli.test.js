@@ -52,3 +52,34 @@ test('cli suite: xf-skills kb cascades to local knowledge', async () => {
   const { stdout } = await execFileP(CLI_PATH, ['kb', '计算思维']);
   assert.ok(stdout.includes('找到') && stdout.includes('LOCAL'));
 });
+
+test('cli suite: xf-skills export bundles self-contained standalone skill', async () => {
+  const os = await import('node:os');
+  const tempDir = path.join(os.tmpdir(), `test-export-${Date.now()}`);
+  try {
+    const { stdout } = await execFileP(CLI_PATH, [
+      'export',
+      'it.woodpecker-auditor',
+      `--out=${tempDir}`
+    ]);
+    assert.ok(stdout.includes('导出成功'));
+    assert.ok(fs.existsSync(path.join(tempDir, 'SKILL.md')));
+    assert.ok(fs.existsSync(path.join(tempDir, 'resources/kb-registry.cjs')));
+    assert.ok(fs.existsSync(path.join(tempDir, 'resources/kb.registry.json')));
+    assert.ok(fs.existsSync(path.join(tempDir, 'resources/templates/lesson-plan')));
+    assert.ok(fs.existsSync(path.join(tempDir, 'references/knowledge')));
+
+    // 验证导出的脚本在外部独立工作区执行时无任何依赖破裂
+    const scriptPath = path.join(tempDir, 'scripts/search_it_resource.cjs');
+    const { stdout: scriptOut } = await execFileP('node', [
+      scriptPath,
+      '--query',
+      '二分查找',
+      '--stage',
+      'predict'
+    ], { cwd: os.tmpdir() });
+    assert.ok(scriptOut.includes('二分查找'));
+  } finally {
+    fs.rmSync(tempDir, { recursive: true, force: true });
+  }
+});

@@ -51,6 +51,7 @@ function printHelp() {
   info <skill-id>          查阅指定技能的完整规约、依赖与认知红线
   chat <skill-id> [--mock] 启动终端交互式苏格拉底追问模拟体验
   kb <query> [--provider]  跨适配器检索在线/离线知识库 (IMA/Dify/Local)
+  export <skill-id> [--out] 打包导出自包含独立技能 (解耦依赖可单独安装)
   validate                 运行框架静态规范校验器
   version, -v              查看当前框架版本号
   help, -h                 查看此帮助信息
@@ -241,6 +242,157 @@ function handleChat(skillId, isMock) {
   });
 }
 
+function copyDirSync(src, dest) {
+  if (!fs.existsSync(src)) return;
+  fs.mkdirSync(dest, { recursive: true });
+  const entries = fs.readdirSync(src, { withFileTypes: true });
+  for (const ent of entries) {
+    const srcPath = path.join(src, ent.name);
+    const destPath = path.join(dest, ent.name);
+    if (ent.isDirectory()) {
+      copyDirSync(srcPath, destPath);
+    } else if (ent.isFile()) {
+      fs.copyFileSync(srcPath, destPath);
+    }
+  }
+}
+
+function parseFrontmatterRequires(content) {
+  const match = content.match(/^---\r?\n([\s\S]*?)\r?\n---/);
+  if (!match) return { templates: [], knowledge: [] };
+  const yaml = match[1];
+
+  const templates = [];
+  const knowledge = [];
+
+  let section = null;
+  for (const line of yaml.split(/\r?\n/)) {
+    const trimmed = line.trim();
+    if (trimmed.startsWith('templates:')) {
+      section = 'templates';
+    } else if (trimmed.startsWith('knowledge:')) {
+      section = 'knowledge';
+    } else if (trimmed.startsWith('requires:') || trimmed.startsWith('depends_on:') || trimmed.startsWith('outputs:')) {
+      section = null;
+    } else if (trimmed.startsWith('- ') && section) {
+      const val = trimmed.slice(2).trim().replace(/^['"]|['"]$/g, '');
+      if (section === 'templates') templates.push(val);
+      if (section === 'knowledge') knowledge.push(val);
+    }
+  }
+  return { templates, knowledge };
+}
+
+function handleExport(skillId, outDir) {
+  if (!skillId) {
+    console.error('❌ 请指定要导出的技能 ID，如: xf-skills export it.woodpecker-auditor');
+    process.exit(1);
+  }
+
+  const catalog = loadCatalog();
+  if (!catalog) {
+    console.error('❌ 尚未生成 catalog.json，请先运行: npm run build:catalog');
+    process.exit(1);
+  }
+
+  const skill = catalog.skills.find(s => s.id === skillId || s.name === skillId);
+  if (!skill) {
+    console.error(`❌ 未找到技能: "${skillId}"。`);
+    console.log('可用技能列表:');
+    for (const s of catalog.skills) {
+      console.log(`  • ${s.id} (${s.display_name})`);
+    }
+    process.exit(1);
+  }
+
+  const skillDir = path.dirname(path.join(ROOT_DIR, skill.file));
+  const destDir = outDir ? path.resolve(process.cwd(), outDir) : path.join(process.cwd(), 'dist', skill.name);
+
+  console.log(`\n📦 正在导出自包含独立技能: \x1b[36m${skill.id}\x1b[0m (${skill.display_name})...\n`);
+
+  // 1. 复制 Skill 源码目录
+  copyDirSync(skillDir, destDir);
+  console.log(`  ✓ 复制技能骨架至: ${destDir}`);
+
+  // 2. 检查 scripts 兄弟依赖（如 it.woodpecker-auditor 特殊处理）
+  const scriptsDir = path.join(destDir, 'scripts');
+  if (skill.id === 'it.woodpecker-auditor') {
+    const primmScript = path.join(ROOT_DIR, 'skills/information-technology/primm-debugger/scripts/search_it_resource.cjs');
+    if (fs.existsSync(primmScript)) {
+      fs.mkdirSync(scriptsDir, { recursive: true });
+      fs.copyFileSync(primmScript, path.join(scriptsDir, 'search_it_resource.cjs'));
+      console.log('  ✓ 内联 primm-debugger 核心检索逻辑至独立 scripts/ 目录');
+    }
+  }
+
+  // 3. 复制共享注册表至 resources 目录，确保脚本脱离 monorepo 也可独立运行
+  const resourcesDir = path.join(destDir, 'resources');
+  fs.mkdirSync(resourcesDir, { recursive: true });
+  const kbRegistrySrc = path.join(ROOT_DIR, 'scripts/shared/kb-registry.cjs');
+  const kbRegistryJsonSrc = path.join(ROOT_DIR, 'examples/kb.registry.json');
+  if (fs.existsSync(kbRegistrySrc)) {
+    fs.copyFileSync(kbRegistrySrc, path.join(resourcesDir, 'kb-registry.cjs'));
+    console.log('  ✓ 注入自包含 kb-registry.cjs 运行时');
+  }
+  if (fs.existsSync(kbRegistryJsonSrc)) {
+    fs.copyFileSync(kbRegistryJsonSrc, path.join(resourcesDir, 'kb.registry.json'));
+    console.log('  ✓ 注入默认知识库注册清单 kb.registry.json');
+  }
+
+  // 4. 解析并捆绑 templates
+  const skillMdPath = path.join(destDir, 'SKILL.md');
+  const skillMdContent = fs.readFileSync(skillMdPath, 'utf8');
+  const { templates, knowledge } = parseFrontmatterRequires(skillMdContent);
+
+  if (templates.length > 0) {
+    const tplDest = path.join(resourcesDir, 'templates');
+    for (const tpl of templates) {
+      const src = path.join(ROOT_DIR, 'templates', tpl);
+      if (fs.existsSync(src)) {
+        copyDirSync(src, path.join(tplDest, tpl));
+        console.log(`  ✓ 捆绑依赖模板: ${tpl}`);
+      }
+    }
+  }
+
+  // 5. 解析并捆绑 knowledge
+  if (knowledge.length > 0) {
+    const referencesDir = path.join(destDir, 'references', 'knowledge');
+    fs.mkdirSync(referencesDir, { recursive: true });
+    for (const kn of knowledge) {
+      const relPath = kn.replace(/\./g, '/');
+      const candDir = path.join(ROOT_DIR, 'knowledge', relPath);
+      const candMd = path.join(ROOT_DIR, 'knowledge', `${relPath}.md`);
+      if (fs.existsSync(candDir) && fs.statSync(candDir).isDirectory()) {
+        copyDirSync(candDir, path.join(referencesDir, kn));
+        console.log(`  ✓ 捆绑知识库参考模块: ${kn}`);
+      } else if (fs.existsSync(candMd)) {
+        fs.copyFileSync(candMd, path.join(referencesDir, `${kn}.md`));
+        console.log(`  ✓ 捆绑知识库参考文档: ${kn}.md`);
+      }
+    }
+  }
+
+  // 6. 规范化 SKILL.md 中的执行路径
+  let normalizedMd = skillMdContent;
+  normalizedMd = normalizedMd.replace(/node skills\/[a-zA-Z0-9_\-\/]+\/scripts\//g, 'node ./scripts/');
+  fs.writeFileSync(skillMdPath, normalizedMd, 'utf8');
+  console.log('  ✓ 规范化 SKILL.md 脚本执行语法为独立工作区相对路径 (node ./scripts/...)');
+
+  console.log(`
+🎉 导出成功！自包含技能位于:
+   \x1b[32m${destDir}\x1b[0m
+
+📌 单独安装指引:
+   • 安装到全局 (~/.gemini/config/skills/):
+     cp -r "${destDir}" ~/.gemini/config/skills/${skill.name}
+
+   • 安装到指定工程项目 (.agents/skills/):
+     mkdir -p <project-dir>/.agents/skills
+     cp -r "${destDir}" <project-dir>/.agents/skills/${skill.name}
+`);
+}
+
 function main() {
   const args = process.argv.slice(2);
   const cmd = args[0];
@@ -317,6 +469,20 @@ function main() {
     return;
   }
 
+  if (cmd === 'export') {
+    const skillId = args[1];
+    let outDir = null;
+    for (let i = 2; i < args.length; i++) {
+      if (args[i] === '--out' || args[i] === '-o') {
+        outDir = args[++i];
+      } else if (args[i].startsWith('--out=')) {
+        outDir = args[i].split('=')[1];
+      }
+    }
+    handleExport(skillId, outDir);
+    return;
+  }
+
   console.error(`❌ 未知命令: ${cmd}。输入 'xf-skills help' 查看用法。`);
   process.exit(1);
 }
@@ -329,5 +495,6 @@ module.exports = {
   loadCatalog,
   loadPackageJson,
   handleSearch,
-  handleInfo
+  handleInfo,
+  handleExport
 };

@@ -26,8 +26,48 @@ const { promisify } = require('util');
 
 const execFileP = promisify(execFile);
 
-// KB 注册表由 scripts/shared/kb-registry.cjs 提供，避免在本脚本中硬编码 KB ID
-const { loadKbRegistry, buildKbConfig } = require('../../../../scripts/shared/kb-registry.cjs');
+// 动态定位 KB 注册表（支持 Monorepo 共享模式、自包含导出的 resources 模式与独立单文件运行模式）
+function resolveKbRegistryLoader() {
+  const candidatePaths = [
+    path.resolve(__dirname, '../../../../scripts/shared/kb-registry.cjs'),
+    path.resolve(__dirname, '../resources/kb-registry.cjs'),
+    path.resolve(__dirname, './kb-registry.cjs')
+  ];
+  for (const cand of candidatePaths) {
+    if (fs.existsSync(cand)) {
+      try {
+        return require(cand);
+      } catch (e) {}
+    }
+  }
+  return {
+    loadKbRegistry: () => ({
+      knowledge_bases: {
+        gt: { id: process.env.WOODPECKER_GT_KB_ID || process.env.TOULMIN_GT_KB_ID || '', name: '技术与工程教学' },
+        it: { id: process.env.WOODPECKER_IT_KB_ID || process.env.PRIMM_IT_KB_ID || '', name: '信息科技教学' }
+      },
+      __source: 'standalone-fallback',
+      __fallback: true
+    }),
+    buildKbConfig: (registry, envOverrides = {}) => {
+      const kbs = (registry && registry.knowledge_bases) || {};
+      const config = {};
+      for (const [key, kb] of Object.entries(kbs)) {
+        const overrides = envOverrides[key] || {};
+        const idFromEnv = overrides.idEnv ? process.env[overrides.idEnv] : undefined;
+        const localDirFromEnv = overrides.localDirEnv ? process.env[overrides.localDirEnv] : undefined;
+        config[key] = {
+          id: (idFromEnv && idFromEnv.length > 0) ? idFromEnv : kb.id,
+          name: kb.name,
+          localDir: (localDirFromEnv && localDirFromEnv.length > 0) ? localDirFromEnv : null
+        };
+      }
+      return config;
+    }
+  };
+}
+
+const { loadKbRegistry, buildKbConfig } = resolveKbRegistryLoader();
 
 // ---------------------------------------------------------------------------
 // IMA API 解析

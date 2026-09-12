@@ -89,6 +89,7 @@ function loadKbRegistry(options = {}) {
   if (process.env.KB_REGISTRY_PATH) {
     candidates.push({ source: 'KB_REGISTRY_PATH', path: process.env.KB_REGISTRY_PATH });
   }
+  candidates.push({ source: 'colocated', path: path.resolve(__dirname, './kb.registry.json') });
   candidates.push({ source: 'default', path: getDefaultRegistryPath() });
 
   for (const cand of candidates) {

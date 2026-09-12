@@ -8,7 +8,7 @@
 
 <p align="center">
   <a href="LICENSE"><img src="https://img.shields.io/badge/license-MIT-blue.svg" alt="License"></a>
-  <a href="package.json"><img src="https://img.shields.io/badge/version-0.6.1-green.svg" alt="Version"></a>
+  <a href="package.json"><img src="https://img.shields.io/badge/version-0.7.0-green.svg" alt="Version"></a>
   <a href="docs/specifications/skill-spec.md"><img src="https://img.shields.io/badge/spec-v1.0-orange.svg" alt="Spec"></a>
   <a href="docs/architecture/overview.md"><img src="https://img.shields.io/badge/status-active-brightgreen.svg" alt="Status"></a>
 </p>
