@@ -13,6 +13,7 @@
     "validate:packs": "node scripts/validate/validator.js --target=packs",
     "build:catalog": "node scripts/build/build-catalog.js",
     "test": "node --test tests/**/*.test.js",
+    "bundle": "node bin/xf-skills.cjs bundle",
     "check": "npm run validate && npm run build:catalog && npm test"
   },
   "keywords": [

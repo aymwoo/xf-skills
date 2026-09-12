@@ -83,3 +83,23 @@ test('cli suite: xf-skills export bundles self-contained standalone skill', asyn
     fs.rmSync(tempDir, { recursive: true, force: true });
   }
 });
+
+test('cli suite: xf-skills bundle packages compliant SkillHub all-in-one zip', async () => {
+  const os = await import('node:os');
+  const tempZip = path.join(os.tmpdir(), `test-bundle-${Date.now()}.zip`);
+  try {
+    const { stdout } = await execFileP(CLI_PATH, ['bundle', `--out=${tempZip}`]);
+    assert.ok(stdout.includes('成功创建全量标准 Zip 包'));
+    assert.ok(fs.existsSync(tempZip));
+
+    const { execSync } = await import('node:child_process');
+    const out = execSync(`unzip -Z1 "${tempZip}"`, { encoding: 'utf8' });
+    const entries = out.trim().split('\n').filter(e => !e.endsWith('/'));
+
+    assert.ok(entries.includes('SKILL.md'), 'Zip must contain SKILL.md at root');
+    assert.ok(entries.length <= 200, `File count must be <= 200 (got ${entries.length})`);
+    assert.ok(entries.length >= 180, `File count must include full framework skills (got ${entries.length})`);
+  } finally {
+    if (fs.existsSync(tempZip)) fs.unlinkSync(tempZip);
+  }
+});

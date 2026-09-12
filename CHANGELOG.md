@@ -11,6 +11,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **新增仓库根目录标准入口 `SKILL.md`（适配 SkillHub.cn 等平台整体导入）**:
   - 在全框架根目录下新增符合 Skill 国际标准规范的顶层定义文件 `SKILL.md`，将整个框架作为顶级教学技能套件直接暴露。
   - 解决通过 GitHub 仓库或完整归档导入 SkillHub 时因根目录缺少 `SKILL.md` 触发的“必须包含 SKILL.md 文件”阻断性报错，实现自动抓取框架能力描述与元数据。
+- **新增全库一键打包工具 (`xf-skills bundle` / `npm run bundle`)**:
+  - 新增一键生成 SkillHub.cn / skills.cn 规范全量上传包工具，自动剔除 `.git`、`.github`、`.gitignore`、临时构建与测试日志等 100% 冗余文件。
+  - 直接生成根目录带有 `SKILL.md` 的纯净 `dist/xf-skills-all.zip`（仅 185 个有效文件、338 KB，远低于 200 文件与 10 MiB 硬顶限制），拖拽上传即可一次性成功导入全库 24 项技能。
 - **新增 CLI 导出 Zip 压缩包支持 (`xf-skills export <id> --zip`)**:
   - 在 `bin/xf-skills.cjs` 的导出工具链中内置纯 Node.js（基于标准库 `zlib`）的零外部依赖轻量 Zip 压缩器。
   - 支持直接将任意单技能及其依赖的 `templates/`、`knowledge/`、`resources/` 资产打包为便携 `.zip` 归档文件（产物保存在 `dist/` 目录，单包仅 14 个文件、24 KB）。
