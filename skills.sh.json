@@ -1,0 +1,51 @@
+{
+  "$schema": "https://skills.sh/schemas/skills.sh.schema.json",
+  "notGrouped": "bottom",
+  "groupings": [
+    {
+      "title": "Information Technology",
+      "description": "高中信息科技教学、多版本教材对比、PRIMM 代码调试与教案啄木鸟审计",
+      "skills": [
+        "multi-version-teaching-designer",
+        "primm-debugger",
+        "woodpecker-auditor",
+        "programming",
+        "algorithm",
+        "computational-thinking",
+        "data",
+        "artificial-intelligence"
+      ]
+    },
+    {
+      "title": "Technology & Engineering",
+      "description": "普通高中技术与工程（通用技术）图尔敏论证式工程助教与工程决策设计",
+      "skills": [
+        "toulmin-assistant",
+        "engineering-design",
+        "technology-design",
+        "prototyping",
+        "technical-practice",
+        "testing-iteration"
+      ]
+    },
+    {
+      "title": "Physics",
+      "description": "高中物理数字化实验探究与 DIS 传感器毫秒级数据分析教学",
+      "skills": [
+        "experiment-inquiry"
+      ]
+    },
+    {
+      "title": "Core Pedagogy",
+      "description": "K-12 通用教学设计、评价量规设计、表现性评价与教学实证反思",
+      "skills": [
+        "lesson-design",
+        "rubric-design",
+        "assessment-design",
+        "project-learning",
+        "activity-design",
+        "teaching-reflection"
+      ]
+    }
+  ]
+}

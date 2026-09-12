@@ -8,7 +8,8 @@
 
 <p align="center">
   <a href="LICENSE"><img src="https://img.shields.io/badge/license-MIT-blue.svg" alt="License"></a>
-  <a href="package.json"><img src="https://img.shields.io/badge/version-0.7.0-green.svg" alt="Version"></a>
+  <a href="package.json"><img src="https://img.shields.io/badge/version-0.8.0-green.svg" alt="Version"></a>
+  <a href="https://skills.sh/aymwoo/xf-skills"><img src="https://skills.sh/b/aymwoo/xf-skills" alt="skills.sh"></a>
   <a href="docs/specifications/skill-spec.md"><img src="https://img.shields.io/badge/spec-v1.0-orange.svg" alt="Spec"></a>
   <a href="docs/architecture/overview.md"><img src="https://img.shields.io/badge/status-active-brightgreen.svg" alt="Status"></a>
 </p>
@@ -108,7 +109,8 @@ teaching-skills/
 │   │   ├── computational-thinking/# 计算思维四维度系统培养
 │   │   ├── project-learning/      # 信息科技数字化产品项目学习
 │   │   ├── primm-debugger/        # PRIMM 编程思维与认知调试助教 (时序推演/探针调试)
-│   │   └── woodpecker-auditor/    # 信息科技教案啄木鸟审计 (语法负荷/CT显性化/探究留白)
+│   │   ├── woodpecker-auditor/    # 信息科技教案啄木鸟审计 (语法负荷/CT显性化/探究留白)
+│   │   └── multi-version-teaching-designer/ # 多版本教材教学设计副驾驶 (107册教材横向透视矩阵)
 │   │
 │   ├── technology-engineering/    # 🛠️ 技术与工程技能集 (体现工程思维闭环)
 │   │   ├── technology-design/     # 技术设计 (结构/流程/系统/控制)
@@ -155,7 +157,7 @@ teaching-skills/
 
 ## 🎯 核心技能库与文档索引 (Skills Directory & Documentation)
 
-框架内全量收录的 **23 项专业教学技能** 均配有独立的专用说明文档（`README.md`）与执行规约（`SKILL.md`）。  
+框架内全量收录的 **24 项专业教学技能** 均配有独立的专用说明文档（`README.md`）与执行规约（`SKILL.md`）。  
 点击下表中对应的 **文档链接**，可查阅该技能的理论依据、认知红线、素养映射与完整实战交互范例：
 
 ### 📚 1. 通用教学法基座技能集 (Common Core, 6 项)
@@ -170,7 +172,7 @@ teaching-skills/
 | `core.project-learning` | **项目式学习设计** | K-12 跨学科 PBL 单元设计，确立驱动性问题、进阶里程碑与公开展示 | [📖 README](skills/core/project-learning/README.md) · [📜 SKILL](skills/core/project-learning/SKILL.md) |
 | `core.teaching-reflection` | **教学反思与改进** | 基于课堂实证数据的课后反思，诊断意外学情并提供教案再迭代策略 | [📖 README](skills/core/teaching-reflection/README.md) · [📜 SKILL](skills/core/teaching-reflection/SKILL.md) |
 
-### 💻 2. 信息科技学科技能集 (Information Technology, 8 项)
+### 💻 2. 信息科技学科技能集 (Information Technology, 9 项)
 聚焦中小学信息科技课标，突出**计算思维（分解、模式识别、抽象、算法）**系统化培养，具备完备的备课审计与机房认知调试双旗舰：
 
 | 技能标识 (ID) | 技能名称 | 核心功能与特色亮点 | 专属文档与规约 |
@@ -183,6 +185,7 @@ teaching-skills/
 | `it.project-learning` | **信息科技项目学习** | 数字化产品全流程设计，指导微型系统开发、智能物联小车与仪表盘发布 | [📖 README](skills/information-technology/project-learning/README.md) · [📜 SKILL](skills/information-technology/project-learning/SKILL.md) |
 | ⭐ `it.primm-debugger` | **PRIMM 调试助教**<br>*(学生端旗舰)* | **阻断 AI 代写代改代码**。依据 PRIMM 模型，凭 Traceback 门禁放行，单步追问 $\le 150$ 字 | [📖 README](skills/information-technology/primm-debugger/README.md) · [📜 SKILL](skills/information-technology/primm-debugger/SKILL.md) |
 | ⭐ `it.woodpecker-auditor` | **IT 教案啄木鸟**<br>*(教师端旗舰)* | **三道防线审计**：严打“语法泡沫”、“计算思维虚化”与“直接投喂源码照抄”，严禁代写 | [📖 README](skills/information-technology/woodpecker-auditor/README.md) · [📜 SKILL](skills/information-technology/woodpecker-auditor/SKILL.md) |
+| ⭐ `it.multi-version-teaching-designer` | **多版本教材教学设计副驾驶** | **横向透视 107 本多版本教材**。提取引入情境、概念建构与实践差异，生成对比矩阵与二次创生教案 | [📖 README](skills/information-technology/multi-version-teaching-designer/README.md) · [📜 SKILL](skills/information-technology/multi-version-teaching-designer/SKILL.md) |
 
 ### 🛠️ 3. 技术与工程学科技能集 (Technology & Engineering, 8 项)
 聚焦普通高中通用技术课标，严格落地**工程思维闭环（需求分析 ➔ 方案构思 ➔ 物化成型 ➔ 破坏测试 ➔ 权衡决策）**：
@@ -217,7 +220,24 @@ teaching-skills/
 
 ## 🚀 快速上手 (Quick Start)
 
-### 1. 环境准备
+### 0. 通过 skills.sh 开放生态极速安装 (Recommended for AI Agents)
+
+本项目已全面接入 [skills.sh](https://skills.sh/aymwoo/xf-skills) 开放 Agent Skills 生态，原生适配 Claude Code、Cursor、Windsurf、Antigravity、VS Code、Cline 等 20+ 款主流 AI Agent：
+
+```bash
+# 🚀 一键安装全套教学技能库到当前 Agent 环境
+npx skills add aymwoo/xf-skills
+
+# 🎯 按需安装指定单项技能 (例如多版本教学设计或 PRIMM 调试助教)
+npx skills add aymwoo/xf-skills --skill multi-version-teaching-designer
+npx skills add aymwoo/xf-skills --skill primm-debugger
+npx skills add aymwoo/xf-skills --skill toulmin-assistant
+
+# 📋 预览仓库收录的 24 项技能列表
+npx skills add aymwoo/xf-skills -l
+```
+
+### 1. 本地开发与源码运行
 
 本项目采用轻量级 Node.js 驱动校验引擎（无繁重外部依赖）：
 

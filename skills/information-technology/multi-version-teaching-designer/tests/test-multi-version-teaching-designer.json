@@ -1,0 +1,21 @@
+{
+  "test_id": "test_it_multi_version_designer_01",
+  "skill_id": "it.multi-version-teaching-designer",
+  "description": "验证多版本教材教学设计副驾驶在跨版本检索、对比矩阵生成及二次创生教案规范性",
+  "inputs": {
+    "query": "二叉树的遍历",
+    "subject": "it",
+    "grade": "high-school"
+  },
+  "expected_behaviors": [
+    "执行 cross_textbook_search.cjs 并提取至少 3 个主流教材版本的特色实践",
+    "在教案正文前输出包含‘引入情境、概念建构、实践案例、课后拓展’的四维对比矩阵",
+    "输出符合 ABCD 教学目标与驱动性问题链规范的教案初稿",
+    "提供一键调用 save_lesson_plan.cjs 存储至 IMA 笔记的指令或指引"
+  ],
+  "red_lines": [
+    "严禁在脚本或提示词中硬编码本地绝对路径",
+    "严禁仅罗列单一版本教材案例而丢失跨版本横向透视",
+    "严格遵守计算思维核心素养显性化要求"
+  ]
+}

@@ -5,6 +5,26 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.8.0] - 2026-09-12
+
+### Added
+- **正式集成 `it.multi-version-teaching-designer`（多版本教材教学设计副驾驶）**:
+  - 正式将多版本教材横向对比与教学设计二次创生技能纳入框架体系（`skills/information-technology/multi-version-teaching-designer`），全框架收录技能扩充至 **24 项**。
+  - 覆盖高中信息科技（48 本，6 大版本）与通用技术（59 本，5 大版本）教材云端知识库，支持跨版本引入情境、概念建构逻辑、典型实践案例与课后探究任务的四维透视矩阵提取。
+  - 补全完整框架门禁资产：包含 `examples/case-01-binary-tree-comparison.md` 与自动化测试定义 `tests/test-multi-version-teaching-designer.json`。
+- **接入 skills.sh 官方生态目录与页面编排配置 (`skills.sh.json`)**:
+  - 在仓库根目录新增符合 Vercel `skills.sh` 规范的 `skills.sh.json`，实现全库 24 项技能在 `https://skills.sh/aymwoo/xf-skills` 的专业化板块编排（Information Technology / Technology & Engineering / Physics / Core Pedagogy）。
+  - 支持第三方用户通过官方标准指令一键安装全套技能库 (`npx skills add aymwoo/xf-skills`) 或单选按需安装 (`npx skills add aymwoo/xf-skills --skill multi-version-teaching-designer`)。
+
+### Fixed
+- **消除 `multi-version-teaching-designer` 中残留的开发机绝对路径**:
+  - 将 `SKILL.md` 指令示例中写死的 `~/.gemini/antigravity/...` 替换为自适应的相对执行路径，第三方用户跨平台/跨 Agent 安装时零报错。
+  - 增强 `cross_textbook_search.cjs` 与 `save_lesson_plan.cjs` 的 `findImaApi()` 候选探测链路，新增 `IMA_API_PATH` 环境变量与本地同级路径支持。
+
+### Changed
+- `package.json` 版本升级至 `0.8.0`。
+- 更新全量测试套件断言与 `catalog.json`，自动化测试 **77 项全部通过**。
+
 ## [0.7.0] - 2026-09-12
 
 ### Added
