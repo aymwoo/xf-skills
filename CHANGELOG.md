@@ -5,6 +5,24 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.8.2] - 2026-09-18
+
+### Added
+- **正式集成 `core.wjx-survey-converter`（问卷星导入文本转换专家）**:
+  - 新增面向学术调研、评价指标体系构建与德尔菲法（Delphi）专家函询问卷的问卷星文本转换核心技能，全库收录技能扩充至 **25 项**。
+  - **题型全语法覆盖**：支持单选题、多选题（`[多选题]`）、矩阵单选（`[矩阵题]`）、矩阵量表（`[矩阵量表题]`）、比重题（`[比重题]`）、表格下拉（`[表格题]`）、多项填空（`____`）与段落说明（`[段落说明]`）。
+  - **德尔菲学术问卷专项优化**：
+    - 创新实现“打分+修改意见”同行表格自动解耦为“矩阵量表打分 + 选填修改意见”，彻底解决移动端复杂表格排版错位痛点；
+    - 专家权威度自评转换为双维矩阵单选题；维度权重分配适配为比重题并强制 100% 校验。
+  - **全套配套资产与辅助脚本**：
+    - 内置无第三方依赖的 Word 结构解析脚本 `scripts/parse_docx.py`（基于 Python 原生 `zipfile` 与 `xml.etree`）；
+    - 配套全题型语法速查手册 `references/wjx_syntax_reference.md` 与德尔菲设计及统计（Mean、CV 变异系数）指南 `references/delphi_survey_guide.md`；
+    - 配套标准输入输出测试样例 `examples/` 与自动化测试断言 `tests/test-wjx-survey-converter.json`。
+
+### Changed
+- `package.json` 版本升级至 `0.8.2`。
+- 更新全量测试套件断言与 `catalog.json`（已收录 25 项技能），自动化测试 **78 项全绿通过**。
+
 ## [0.8.1] - 2026-09-12
 
 ### Added

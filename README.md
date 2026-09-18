@@ -157,10 +157,10 @@ teaching-skills/
 
 ## 🎯 核心技能库与文档索引 (Skills Directory & Documentation)
 
-框架内全量收录的 **24 项专业教学技能** 均配有独立的专用说明文档（`README.md`）与执行规约（`SKILL.md`）。  
+框架内全量收录的 **25 项专业教学技能** 均配有独立的专用说明文档（`README.md`）与执行规约（`SKILL.md`）。  
 点击下表中对应的 **文档链接**，可查阅该技能的理论依据、认知红线、素养映射与完整实战交互范例：
 
-### 📚 1. 通用教学法基座技能集 (Common Core, 6 项)
+### 📚 1. 通用教学法基座技能集 (Common Core, 7 项)
 通用技能集严格遵循经典教育学理论（布鲁姆目标分类学、加涅教学九事件、教学评一致性、逆向设计 UbD），为各分学科技能提供底层支撑：
 
 | 技能标识 (ID) | 技能名称 | 核心功能与定位说明 | 专属文档与规约 |
@@ -171,6 +171,7 @@ teaching-skills/
 | `core.rubric-design` | **评价量规设计** | 高质量分析型量规（Rubric），建立多维度、4 等级的可测质性评价锚点 | [📖 README](skills/core/rubric-design/README.md) · [📜 SKILL](skills/core/rubric-design/SKILL.md) |
 | `core.project-learning` | **项目式学习设计** | K-12 跨学科 PBL 单元设计，确立驱动性问题、进阶里程碑与公开展示 | [📖 README](skills/core/project-learning/README.md) · [📜 SKILL](skills/core/project-learning/SKILL.md) |
 | `core.teaching-reflection` | **教学反思与改进** | 基于课堂实证数据的课后反思，诊断意外学情并提供教案再迭代策略 | [📖 README](skills/core/teaching-reflection/README.md) · [📜 SKILL](skills/core/teaching-reflection/SKILL.md) |
+| `core.wjx-survey-converter` | **问卷星文本转换专家** | 学术与德尔菲问卷转换，支持矩阵量表、比重题、自动分值与移动端优化 | [📖 README](skills/core/wjx-survey-converter/README.md) · [📜 SKILL](skills/core/wjx-survey-converter/SKILL.md) |
 
 ### 💻 2. 信息科技学科技能集 (Information Technology, 9 项)
 聚焦中小学信息科技课标，突出**计算思维（分解、模式识别、抽象、算法）**系统化培养，具备完备的备课审计与机房认知调试双旗舰：
@@ -233,7 +234,7 @@ npx skills add aymwoo/xf-skills --skill multi-version-teaching-designer
 npx skills add aymwoo/xf-skills --skill primm-debugger
 npx skills add aymwoo/xf-skills --skill toulmin-assistant
 
-# 📋 预览仓库收录的 24 项技能列表
+# 📋 预览仓库收录的 25 项技能列表
 npx skills add aymwoo/xf-skills -l
 ```
 

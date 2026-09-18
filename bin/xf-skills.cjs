@@ -52,7 +52,7 @@ function printHelp() {
   chat <skill-id> [--mock] 启动苏格拉底微追问交互模拟
   kb <query> [--provider=] 检索学科教材与课标知识库
   validate                 运行框架静态规范校验器
-  bundle [--out <path>]    打包包含全套 24 项技能的 SkillHub / skills.cn 规范 Zip 发布包
+  bundle [--out <path>]    打包包含全套 25 项技能的 SkillHub / skills.cn 规范 Zip 发布包
   export <id> [--out <dir>] [--zip] 导出自包含独立技能目录与 SkillHub 上传 Zip 包
   version, -v              查看当前框架版本号
   help, -h                 查看此帮助信息
@@ -435,7 +435,7 @@ function handleBundle(outZipPath) {
     'tests'
   ];
 
-  console.log('\n📦 正在打包包含全套 24 项技能的 SkillHub / skills.cn 规范 Zip 发布包...\n');
+  console.log('\n📦 正在打包包含全套 25 项技能的 SkillHub / skills.cn 规范 Zip 发布包...\n');
   const { execFileSync } = require('child_process');
   execFileSync('zip', ['-rq', targetZip, ...includedEntries, '-x', '*.DS_Store', '*__MACOSX*', 'LICENSE', 'license*', '*listen*'], { cwd: ROOT_DIR });
   const sizeKb = (fs.statSync(targetZip).size / 1024).toFixed(1);

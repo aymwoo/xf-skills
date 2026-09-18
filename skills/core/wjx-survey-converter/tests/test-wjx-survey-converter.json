@@ -1,0 +1,21 @@
+{
+  "test_id": "test_core_wjx_survey_converter_01",
+  "skill_id": "core.wjx-survey-converter",
+  "description": "验证德尔菲学术问卷转换到问卷星导入文本格式的准确性与完整性",
+  "inputs": {
+    "source_file": "examples/delphi_input_sample.md",
+    "target_format": "wjx_text",
+    "question_types": [
+      "matrix_scale",
+      "proportion",
+      "matrix_single",
+      "open_essay"
+    ]
+  },
+  "expected_sections": [
+    "矩阵量表题",
+    "比重题",
+    "矩阵题",
+    "段落说明"
+  ]
+}
